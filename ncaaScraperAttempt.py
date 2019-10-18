@@ -17,6 +17,7 @@ def get_combine_data(soup):
         
 
     return
+
 def variousTeamStats(soup):
     
     tables = soup.find_all("table")
@@ -25,7 +26,7 @@ def variousTeamStats(soup):
     for row in rows:
         print row.text
 
-def playerAverages(soup,curosr,cnx):
+def playerAverages(soup,curosr,cnx, teamName):
 
     tables = soup.find_all("table")
 
@@ -39,6 +40,7 @@ def playerAverages(soup,curosr,cnx):
         rows = table.find_all("tr")
         for row in rows[1:]:
             points = row.find_all("td")
+            team = teamName
             
             fullName = points[0].text
             gamesPlayed = points[2].text
@@ -70,9 +72,9 @@ def playerAverages(soup,curosr,cnx):
             season = (i + "/" + j)
             '''
             #finish filling in the inserts list with all the variables
-            inserts = (fullName, gamesPlayed, fieldGoalsMade, fieldGoalsAttempt)
+            inserts = (team, fullName, gamesPlayed, fieldGoalsMade, fieldGoalsAttempt)
 
-            insertStats = "INSERT INTO _______ (fullName, gamesPlayed, fieldGoalsAttempt,...there should be twenty four variables) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            insertStats = "INSERT INTO _______ (team, fullName, gamesPlayed, fieldGoalsAttempt,...there should be twenty six variables) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             
             # inserts the stats into whatever table is designated
             cursor.execute(insertStats, inserts) 
@@ -90,7 +92,7 @@ def playerAverages(soup,curosr,cnx):
 
 
 
-def playerAdvancedAverages(soup):
+def playerAdvancedAverages(soup, cursor, cnx, teamName):
 
     tables = soup.find_all("table")
 
@@ -104,6 +106,7 @@ def playerAdvancedAverages(soup):
         rows = table.find_all("tr")
         for row in rows[1:]:
             points = row.find_all("td")
+            team = teamName
 
             fullName = points[0].text
             gamesPlayed = points[2].text
@@ -126,13 +129,23 @@ def playerAdvancedAverages(soup):
             personalFoulPercent = 
             season = (i + "/" + j)
             '''
+            inserts = (team, fullName, gamesPlayed, fieldGoalsMade, fieldGoalsAttempt)
+
+            insertStats = "INSERT INTO _______ (team, fullName, gamesPlayed, fieldGoalsAttempt,...there should be the same num of percent s's as variables created above) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            
+            # inserts the stats into whatever table is designated
+            cursor.execute(insertStats, inserts) 
+            cnx.commit()
+            print "Finished inserting data for: ", fullName
 
         i-=1
         j-=1
 
     return
+def playersOnTeam ():
+    return
 
-def advancedScheduleStats(soup):
+def advancedScheduleStats(soup, cursor, cnx, teamName):
 
     #table 60 18/19 advanced
     #table 61 17/18 advanced
@@ -157,6 +170,7 @@ def advancedScheduleStats(soup):
                     home = 1
             else:
                 home = 0
+            team = teanName
             offensiveRating = points[5].text
             defensiveRating = points[6].text
             netRating = points[7].text
@@ -171,6 +185,15 @@ def advancedScheduleStats(soup):
             blockPercent = points[16].text
             date = points[0].text
 
+            inserts = (team, opponent, home,)
+
+            insertStats = "INSERT INTO _______ (fullName, gamesPlayed, fieldGoalsAttempt,...there should be the same num of percent s's as variables created above) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            
+            # inserts the stats into whatever table is designated
+            cursor.execute(insertStats, inserts) 
+            cnx.commit()
+            print "Finished inserting data for: ", teamName, " vs. ", opponent
+
         i-=1
         j-=1
 
@@ -178,7 +201,7 @@ def advancedScheduleStats(soup):
 
     return
 
-def scheduleStats(soup):
+def scheduleStats(soup, cursor, cnx,teamName):
 
     #table 56 18/19 schedule
     #table 57 17/18 schedule
@@ -198,6 +221,7 @@ def scheduleStats(soup):
 
             points = row.find_all("td")
             date = points[0].text
+            team = teamName
             if points[1].text == "H":
                     home = 1
             else:
@@ -211,6 +235,15 @@ def scheduleStats(soup):
             pointsAllowed = points[8].text
             margin = points[9].text
             opponentRPI = points[12].text
+
+            inserts = (team, opponent, home,)
+
+            insertStats = "INSERT INTO _______ (fullName, gamesPlayed, fieldGoalsAttempt,...there should be the same num of percent s's as variables created above) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            
+            # inserts the stats into whatever table is designated
+            cursor.execute(insertStats, inserts) 
+            cnx.commit()
+            print "Finished inserting data for: ", teamName, " vs. ", opponent
              
         i-=1
         j-=1
