@@ -3,15 +3,15 @@ import requests
 from bs4 import BeautifulSoup
 
 def playerRef(soup,cursor,cnx):
-    i = 18
-    j = 19
+    i = 15
+    j = 16
 
     print "________________________________________________________________________________________________________________________"
-    print "Player Info: ", i,"/",j," season"
+    print "Player Info: " + str(i) + "/" + str(j) + " season"
     list = soup.find('ul', {"class": "list-unstyled"})
     # puts the list items into an array
     list_items = list.findAll('li')
-    print list_items
+    # print list_items
     playerName = list_items[0].text
     print playerName
     team = list_items[1].text[6:]
@@ -27,7 +27,7 @@ def playerRef(soup,cursor,cnx):
     jerseyNum = list_items[6].text[15:]
     print jerseyNum
     season = str(i) + "/" + str(j)
-
+    print season
 
     #finish filling in the inserts list with all the variables
     inserts = (playerName, team, season, position, height, jerseyNum)
@@ -56,10 +56,10 @@ def main():
                                   password="LeBron>MJ!")
     cursor = cnx.cursor(buffered=True)
 
-    html = open('samtrammel.htm').read()
-    soup = BeautifulSoup(html, 'html.parser')
-    fileName = ("samtrammel.htm")
+    fileName = 'emonijackson.htm'
     print fileName
+    html = open(fileName).read()
+    soup = BeautifulSoup(html, 'html.parser')
     playerRef(soup, cursor, cnx)
     cursor.close()
     cnx.commit()
