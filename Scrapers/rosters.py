@@ -56,7 +56,7 @@ def main():
                                   password="LeBron>MJ!")
     cursor = cnx.cursor(buffered=True)
 
-    fileName = 'alexalfano.htm'
+    fileName = 'malaynajohnson.htm'
     print fileName
     html = open(fileName).read()
     soup = BeautifulSoup(html, 'html.parser')
