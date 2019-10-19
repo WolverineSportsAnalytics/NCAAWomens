@@ -33,7 +33,7 @@ def playerAverages(soup,curosr,cnx, teamName):
     i = 18
     j = 19
 
-    for table in tables[52:56]:
+    for table in tables[48:52]:
         print "________________________________________________________________________________________________________________________"
         print "Player Average Stats: ", i,"/",j," season"
 
@@ -90,7 +90,63 @@ def playerAverages(soup,curosr,cnx, teamName):
     '''
     return
 
+def playerBoxScores(fileName, cursor, cnx, teamName, playerName):
 
+    html = open(fileName).read()
+    soup = BeautifulSoup(html, 'html.parser')
+
+    i = 18
+    j = 19
+    tables = soup.find_all("table")
+    for table in tables[24:28]:
+        rows = table.find_all("tr")
+        for row in rows[1:]:
+            point = row.find_all("td")
+            fullName = playerName
+            team = teamName
+            season = (str(i) + "/" + str(j))
+            date = point[0].text
+            opponent = point[2].text
+            if point[3] == "H":
+                home = 1
+            else:
+                home = 0
+            minutes = point[5].text
+            pointsScored = point[6].text
+            fieldGoalMade = point[7].text
+            fieldGoalAttempt = point[8].text
+            fieldGoalPercent = point[9].text
+            threePointMade = point[10].text
+            threePointAttempt = point[11].text
+            threePointPercent = point[12].text
+            freeThrowMade = point[13].text
+            freeThrowAttempt = point[14].text
+            freeThrowPercent = point[15].text
+            offensiveRebound = point[16].text
+            defensiveRebound = point[17].text
+            totalRebound = point[18].text
+            assist = point[19].text
+            turnover = point[20].text
+            steal = point[21].text
+            block = point[22].text
+            personalFoul = point[23].text
+
+            inserts = (fullName,team,date,season,opponent,home, minutes, pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threePointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,turnover,steal,block,personalFoul)
+
+            insertStats = "INSERT INTO performancePlayer (fullName,team,date,season,opponent,home, minutes, pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threePointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,turnover,steal,block,personalFoul) VALUES(%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s)"
+            
+            print fieldGoalPercent
+            
+            print "Right before insert statement"
+            cursor.execute(insertStats, inserts) 
+            cnx.commit()
+            print "Finished inserting data for: ", fullName
+    
+        i-= 1
+        j-=1
+
+
+    return
 
 def playerAdvancedAverages(soup, cursor, cnx, teamName):
 
@@ -99,7 +155,7 @@ def playerAdvancedAverages(soup, cursor, cnx, teamName):
     i = 18
     j = 19
 
-    for table in tables[56:60]:
+    for table in tables[52:56]:
         print "________________________________________________________________________________________________________________________"
         print "Player Advanced Average Stats: ", i,"/",j," season"
 
@@ -142,7 +198,35 @@ def playerAdvancedAverages(soup, cursor, cnx, teamName):
         j-=1
 
     return
-def playersOnTeam ():
+def playersOnTeam (soup, cursor, cnx, teamName):
+    tables = soup.find_all("table")
+
+    i = 18
+    j = 19
+
+    for table in tables[52:56]:
+        print "________________________________________________________________________________________________________________________"
+        print "Players on team for ", i,"/",j," season"
+
+        rows = table.find_all("tr")
+        for row in rows[1:]:
+            points = row.find_all("td")
+
+            team = teamName
+            fullName = points[0].text
+            season = (str(i) + "/" + str(j))
+
+            inserts = (fullName, team, season)
+
+            insertStats = "INSERT INTO playerReference (fullName, teamName, season) VALUES (%s, %s, %s)"
+            # inserts the stats into whatever table is designated
+            cursor.execute(insertStats, inserts) 
+            cnx.commit()
+            print "Finished inserting data for: ", fullName
+        i-=1
+        j-=1
+
+
     return
 
 def advancedScheduleStats(soup, cursor, cnx, teamName):
@@ -254,21 +338,23 @@ def main():
     
     cnx = mysql.connector.connect(user="wsa",
                                   host="34.68.250.121",
-                                  database="basketball",
+                                  database="NCAAWomens",
                                   password="LeBron>MJ!")
     cursor = cnx.cursor(buffered=True)
 
     html = open('herHoopStatsMichigan.htm').read()
     soup = BeautifulSoup(html, 'html.parser')
     teams = ("Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin")
+    
     for team in teams:
         fileName = ("herHoopStats" + team + ".htm")
-        print fileName
+        
         #teamFile = open(fileName).read()
         #teamSoup = BeautifulSoup(teamFile, 'html.parser')
 
         #fill in functions that want to be done for every team
-
+    
+    playerBoxScores("Nicole MungerMichiganHerHoopsStats.htm", cursor, cnx, "Michigan", "Nicole Munger")
     
 
     return
