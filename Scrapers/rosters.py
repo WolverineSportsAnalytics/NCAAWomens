@@ -3,8 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 
 def playerRef(soup,cursor,cnx):
-    i = 18
-    j = 19
+    i = 15
+    j = 16
 
     print "________________________________________________________________________________________________________________________"
     print "Player Info: " + str(i) + "/" + str(j) + " season"
@@ -56,7 +56,7 @@ def main():
                                   password="LeBron>MJ!")
     cursor = cnx.cursor(buffered=True)
 
-    fileName = 'nathydambo.htm'
+    fileName = 'chelseamitchell.htm'
     print fileName
     html = open(fileName).read()
     soup = BeautifulSoup(html, 'html.parser')
