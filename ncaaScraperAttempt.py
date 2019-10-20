@@ -1,6 +1,8 @@
 import mysql.connector
 import requests
 from bs4 import BeautifulSoup
+from ast import literal_eval
+
 
 
 
@@ -90,6 +92,18 @@ def playerAverages(soup,curosr,cnx, teamName):
     '''
     return
 
+def parseFloat(str):
+
+    try:
+        return float(str)
+    except:
+        if str == "":
+            return 
+        str = str.strip()
+        if str.endswith("%"):
+            return float(str.strip("%").strip())
+        raise Exception("Don't know how to parse %s" % str)
+
 def playerBoxScores(fileName, cursor, cnx, teamName, playerName):
 
     html = open(fileName).read()
@@ -106,8 +120,8 @@ def playerBoxScores(fileName, cursor, cnx, teamName, playerName):
             team = teamName
             season = (str(i) + "/" + str(j))
             date = point[0].text
-            opponent = point[2].text
-            if point[3] == "H":
+            opponent = point[4].text
+            if point[3].text == "H":
                 home = 1
             else:
                 home = 0
@@ -115,13 +129,17 @@ def playerBoxScores(fileName, cursor, cnx, teamName, playerName):
             pointsScored = point[6].text
             fieldGoalMade = point[7].text
             fieldGoalAttempt = point[8].text
-            fieldGoalPercent = point[9].text
+            if fieldGoalAttempt > 1:
+                fieldGoalPercent = parseFloat(point[9].text)
+            else:
+                fieldGoalPercent = null
             threePointMade = point[10].text
             threePointAttempt = point[11].text
-            threePointPercent = point[12].text
+            threePointPercent = parseFloat(point[12].text)
             freeThrowMade = point[13].text
             freeThrowAttempt = point[14].text
-            freeThrowPercent = point[15].text
+            print point[15].text
+            freeThrowPercent = parseFloat(point[15].text)
             offensiveRebound = point[16].text
             defensiveRebound = point[17].text
             totalRebound = point[18].text
@@ -136,7 +154,7 @@ def playerBoxScores(fileName, cursor, cnx, teamName, playerName):
             insertStats = "INSERT INTO performancePlayer (fullName,team,date,season,opponent,home, minutes, pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threePointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,turnover,steal,block,personalFoul) VALUES(%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s)"
             
             print fieldGoalPercent
-            
+
             print "Right before insert statement"
             cursor.execute(insertStats, inserts) 
             cnx.commit()
@@ -198,13 +216,15 @@ def playerAdvancedAverages(soup, cursor, cnx, teamName):
         j-=1
 
     return
-def playersOnTeam (soup, cursor, cnx, teamName):
+def playersOnTeamAllSeasons(soup, cursor, cnx, teamName):
     tables = soup.find_all("table")
 
     i = 18
     j = 19
 
+    totalPlayers = []
     for table in tables[52:56]:
+        players = []
         print "________________________________________________________________________________________________________________________"
         print "Players on team for ", i,"/",j," season"
 
@@ -214,20 +234,32 @@ def playersOnTeam (soup, cursor, cnx, teamName):
 
             team = teamName
             fullName = points[0].text
+            try:
+                fullName = str(fullName)
+            except:
+                fullName = fullName
             season = (str(i) + "/" + str(j))
-
+            players.extend([fullName])
+            
+            '''
             inserts = (fullName, team, season)
 
             insertStats = "INSERT INTO playerReference (fullName, teamName, season) VALUES (%s, %s, %s)"
             # inserts the stats into whatever table is designated
             cursor.execute(insertStats, inserts) 
             cnx.commit()
-            print "Finished inserting data for: ", fullName
+            '''
+            #print "Finished inserting data for: ", fullName
+        
+        totalPlayers = totalPlayers + players
+
         i-=1
         j-=1
 
-
-    return
+    
+    totalPlayers = list(dict.fromkeys(totalPlayers))
+    print totalPlayers
+    return totalPlayers
 
 def advancedScheduleStats(soup, cursor, cnx, teamName):
 
@@ -348,13 +380,16 @@ def main():
     
     for team in teams:
         fileName = ("herHoopStats" + team + ".htm")
-        
-        #teamFile = open(fileName).read()
-        #teamSoup = BeautifulSoup(teamFile, 'html.parser')
+
+        teamFile = open(fileName).read()
+        teamSoup = BeautifulSoup(teamFile, 'html.parser')
+
+        playersOnTeamAllSeasons(teamSoup,cursor,cnx,team)
 
         #fill in functions that want to be done for every team
     
-    playerBoxScores("Nicole MungerMichiganHerHoopsStats.htm", cursor, cnx, "Michigan", "Nicole Munger")
+    #playerBoxScores("Nicole MungerMichiganHerHoopsStats.htm", cursor, cnx, "Michigan", "Nicole Munger")
+
     
 
     return
