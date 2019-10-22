@@ -2,7 +2,7 @@ import mysql.connector
 import requests
 from bs4 import BeautifulSoup
 from ast import literal_eval
-
+'''
 def getPlayersFeatures (cursor, cnx, teamID, seasonID, dateID, playerID, position, opponentTeamID):
 
 	playerFeatures = [dateID, playerID, position, teamID, opponentTeamID, seasonID]
@@ -58,9 +58,21 @@ def getTeamFeatures(cursor, cnx, teamID, seasonID, dateID, opponentTeamID):
 	teamFeatures.extend(tt)
 
 	return teamFeatures
+'''
+def insertDateID(cursor,cnx, tableName):
 
-def whichGames():
+	datesStatement = "select date from dates"
+	cursor.execute(datesStatement)
 
+	dates = cursor.fetchall()
+	
+	for date in dates:
+		dd = "update ",tableName," SET dateID = (SELECT dateID from dates where date =", date, ")"
+		try:
+			cursor.execute(dd)
+		except:
+	
+	
 
 def main():
     
@@ -69,10 +81,12 @@ def main():
                                   database="NCAAWomens",
                                   password="LeBron>MJ!")
     cursor = cnx.cursor(buffered=True)
+    insertDateID(cursor,cnx,"scheduleStats")
 
     
     teams = ("Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin")
     
+    '''
     for team in teams:
     	
     	teamID = team 
@@ -89,8 +103,9 @@ def main():
     				getTeamFeatures(cursor,cnx,teamID,season,game, opponentTeamID)
 
     				#insertTeamFeatures = "INSERT into teamPerformanceFeatures "
-    				
 
+	'''
+	
 
 
     
