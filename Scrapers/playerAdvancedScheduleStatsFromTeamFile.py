@@ -4,6 +4,19 @@ from bs4 import BeautifulSoup
 from ast import literal_eval
 import os
 
+def getTeam(soup,cursor,cnx):
+    i = 18
+    j = 19
+
+    print "________________________________________________________________________________________________________________________"
+    print "Team Info: " + str(i) + "/" + str(j) + " season"
+    list = soup.find('ul', {"class": "list-unstyled"})
+    # puts the list items into an array
+    list_items = list.findAll('li')
+    # print list_items
+    teamName = list_items[0].text
+    return teamName
+
 def playerAdvancedAverages(soup, cursor, cnx, teamName):
 
     tables = soup.find_all("table")
@@ -66,16 +79,20 @@ def main():
 
     #html = open('herHoopStatsMichigan.htm').read()
     #soup = BeautifulSoup(html, 'html.parser')
-    teams = ("Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin")
 
-    for team in teams:
-        fileName = ("herHoopStats" + team + ".htm")
-        print fileName
 
-        teamFile = open(fileName).read()
-        teamSoup = BeautifulSoup(teamFile, 'html.parser')
+    for subdir, dirs, files in os.walk("/Users/cindygu/Sports/WSA/NCAAWomens/teamFiles/NonConference"):
+        for file in files:
+            #print os.path.join(subdir, file)
+            filepath = subdir + os.sep + file
 
-        playerAdvancedAverages(cursor, cnx, teamFile)
+            if filepath.endswith(".htm"):
+                html = open(filepath).read()
+                soup = BeautifulSoup(html, 'html.parser')
+                teamName = getTeam(soup, cursor, cnx)
+                playerAdvancedAverages(soup, cursor, cnx, teamName)
+                print (filepath)
+                # print(path_in_str)
 
         #fill in functions that want to be done for every team
 
