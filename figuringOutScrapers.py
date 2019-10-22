@@ -257,8 +257,8 @@ def scheduleStats(soup, cursor, cnx,teamName):
 
 def tryFindingValues(cursor, cnx,soup):
 
-	i = 1
-	#tables are all the tables in the file
+    i = 1
+    #tables are all the tables in the file
     tables = soup.find_all("table")
     for table in tables:
         print "table number", i
@@ -286,14 +286,13 @@ def main():
                                   password="LeBron>MJ!")
     cursor = cnx.cursor(buffered=True)
 
-    html = open('herHoopStatsMichigan.htm').read()
+    #html = open('herHoopStatsMichigan.htm').read()
     htmlPlayer = open('Nicole MungerMichiganHerHoopStats.htm').read()
     
-    soup = BeautifulSoup(html, 'html.parser')
+    #soup = BeautifulSoup(html, 'html.parser')
     soupPlayer = BeautifulSoup(htmlPlayer, 'html.parser')
     teams = ("Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin")
-    
-   	tryFindingValues(cursor, cnx, soup)
+    tryFindingValues(cursor, cnx, soupPlayer)
 
     return
 
