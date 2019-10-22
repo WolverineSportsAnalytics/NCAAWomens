@@ -93,7 +93,7 @@ def main():
     cursor = cnx.cursor(buffered=True)
 
     # whoever uses this needs to change the directory in the string
-    for subdir, dirs, files in os.walk("/Users/cindygu/Sports/WSA/NCAAWomens/teamFiles"):
+    for subdir, dirs, files in os.walk("/Users/cindygu/Sports/WSA/NCAAWomens/teamFiles/NonConference"):
         for file in files:
             #print os.path.join(subdir, file)
             filepath = subdir + os.sep + file
