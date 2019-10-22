@@ -54,45 +54,20 @@ def scheduleStats(soup, cursor, cnx, teamName):
             # print("Margin:" + str(margin))
             simpleRPI = int(points[12].text)
             # print("Simple RPI:" + str(simpleRPI))
-            #inserts = (team, opponent, home,)
 
-            #insertStats = "INSERT INTO _______ (fullName, gamesPlayed, fieldGoalsAttempt,...there should be the same num of percent s's as variables created above) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            inserts = (team, date, home, opponent, win, pointsScored, pointsAllowed, margin, simpleRPI)
+
+            insertStats = "INSERT INTO scheduleStats(team, date, home, opponent, win, ptsScored, ptsAllowed, margin, simpleRPI) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
             # inserts the stats into whatever table is designated
-            #cursor.execute(insertStats, inserts)
-            #cnx.commit()
-            print "Finished inserting data for: ", teamName, " vs. ", opponent
+            cursor.execute(insertStats, inserts)
+            cnx.commit()
+            print "Finished inserting data for: " + team + " vs. " + opponent
 
         i-=1
         j-=1
 
     return
-
-def teamStats(soup,cursor,cnx):
-    i = 18
-    j = 19
-
-    print "________________________________________________________________________________________________________________________"
-    print "Team Stats: " + str(i) + "/" + str(j) + " season"
-
-    #finish filling in the inserts list with all the variables
-    #inserts = (playerName, team, season, position, height, jerseyNum)
-
-    #insertStats = "INSERT INTO playerReference (fullName, teamName, season, position, height, jerseyNumber) VALUES(%s, %s, %s, %s, %s, %s)"
-
-    # inserts the stats into whatever table is designated
-    #cursor.execute(insertStats, inserts)
-    #cnx.commit()
-    print "Finished inserting data for: "
-
-    '''
-    cleanUp = "DELETE FROM _____ WHERE blocks IS NULL"
-    cursor.execute(cleanUp)
-    cnx.commit()
-    '''
-    return
-
-
 
 def main():
 
@@ -120,10 +95,10 @@ def main():
     html = open(fileName).read()
     soup = BeautifulSoup(html, 'html.parser')
     teamStats(soup, cursor, cnx)
+    '''
     cursor.close()
     cnx.commit()
     cnx.close()
-    '''
 
     return
 
