@@ -52,7 +52,11 @@ def playerAverages(soup,curosr,cnx, teamName):
             # we also need to figure out what to do if a player has empty categories aka are bench players that never played
             '''
             fieldGoalsAttempt = 
-            fieldGoalPercent = 
+            if fieldGoalAttempt > 1:
+                fieldGoalPercent = parseFloat(point[9].text)
+            else:
+                fieldGoalPercent = null
+            
             twoPointMade = 
             twoPointAttempt = 
             twoPointPercent = 
