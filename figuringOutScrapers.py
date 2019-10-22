@@ -287,7 +287,10 @@ def main():
     cursor = cnx.cursor(buffered=True)
 
     html = open('herHoopStatsMichigan.htm').read()
+    htmlPlayer = open('Nicole MungerMichiganHerHoopStats.htm').read()
+    
     soup = BeautifulSoup(html, 'html.parser')
+    soupPlayer = BeautifulSoup(htmlPlayer, 'html.parser')
     teams = ("Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin")
     
    	tryFindingValues(cursor, cnx, soup)
