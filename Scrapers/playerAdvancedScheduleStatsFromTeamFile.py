@@ -70,56 +70,56 @@ def playerAdvancedAverages(soup, cursor, cnx, teamName):
                     effectiveFieldGoalPercent = float(points[6].text.strip('%'))
                 else:
                     effectiveFieldGoalPercent = float(0)
-                print ("EFF FG %: " + str(effectiveFieldGoalPercent))
+                # print ("EFF FG %: " + str(effectiveFieldGoalPercent))
 
                 # 3 point rate
                 if points[7].text != "":
                     threePointRate = float(points[7].text.strip('%'))
                 else:
                     threePointRate = float(0)
-                print ("3point Rate: " + str(threePointRate))
+                # print ("3point Rate: " + str(threePointRate))
 
                 # free throw rate
                 if points[8].text != "":
                     freeThrowRate = float(points[8].text.strip('%'))
                 else:
                     freeThrowRate = float(0)
-                print ("FT Rate: " + str(freeThrowRate))
+                # print ("FT Rate: " + str(freeThrowRate))
 
                 # off reb %
                 if points[9].text != "":
                     offensiveReboundPercent = float(points[9].text.strip('%'))
                 else:
                     offensiveReboundPercent = float(0)
-                print ("OFF Reb %: " + str(offensiveReboundPercent))
+                # print ("OFF Reb %: " + str(offensiveReboundPercent))
 
                 # def reb %
                 if points[10].text != "":
                     defensiveReboundPercent = float(points[10].text.strip('%'))
                 else:
                     defensiveReboundPercent = float(0)
-                print ("DEF Reb %: " + str(defensiveReboundPercent))
+                # print ("DEF Reb %: " + str(defensiveReboundPercent))
 
                 # total reb %
                 if points[11].text != "":
                     totalReboundPercent = float(points[11].text.strip('%'))
                 else:
                     totalReboundPercent = float(0)
-                print ("Total Reb %: " + str(totalReboundPercent))
+                # print ("Total Reb %: " + str(totalReboundPercent))
 
                 # assist %
                 if points[12].text != "":
                     assistPercent = float(points[12].text.strip('%'))
                 else:
                     assistPercent = float(0)
-                print ("Assist %: " + str(assistPercent))
+                # print ("Assist %: " + str(assistPercent))
 
                 # TO %
                 if points[13].text != "":
                     turnoverPercent = float(points[13].text.strip('%'))
                 else:
                     turnoverPercent = float(0)
-                print ("TO %: " + str(turnoverPercent))
+                # print ("TO %: " + str(turnoverPercent))
 
 
                 # assist/turnover
@@ -127,21 +127,21 @@ def playerAdvancedAverages(soup, cursor, cnx, teamName):
                     assistsPerTurnover = float(points[14].text.strip('%'))
                 else:
                     assistsPerTurnover = float(0)
-                print ("Assists per TO: " + str(assistsPerTurnover))
+                # print ("Assists per TO: " + str(assistsPerTurnover))
 
                 # steal %
                 if points[15].text != "":
                     stealPercent = float(points[15].text.strip('%'))
                 else:
                     stealPercent = float(0)
-                print ("Steal %: " + str(stealPercent))
+                # print ("Steal %: " + str(stealPercent))
 
                 # block %
                 if points[16].text != "":
                     blockPercent = float(points[16].text.strip('%'))
                 else:
                     blockPercent = float(0)
-                print ("Block %: " + str(blockPercent))
+                # print ("Block %: " + str(blockPercent))
 
                 # PF %
                 if points[17].text != "":
@@ -179,7 +179,7 @@ def main():
     #soup = BeautifulSoup(html, 'html.parser')
 
 
-    for subdir, dirs, files in os.walk("/Users/cindygu/Sports/WSA/NCAAWomens/teamFiles/NonConference"):
+    for subdir, dirs, files in os.walk("/Users/cindygu/Sports/WSA/NCAAWomens/teamFiles"):
         for file in files:
             #print os.path.join(subdir, file)
             filepath = subdir + os.sep + file
