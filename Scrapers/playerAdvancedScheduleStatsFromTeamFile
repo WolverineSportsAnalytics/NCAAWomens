@@ -68,6 +68,7 @@ def main():
     #soup = BeautifulSoup(html, 'html.parser')
     teams = ("Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin")
     
+    open('teamFiles/herHoopStatsMichigan.htm').read()
     for team in teams:
         fileName = ("herHoopStats" + team + ".htm")
         print fileName
