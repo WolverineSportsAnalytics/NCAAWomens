@@ -152,13 +152,13 @@ def playerAdvancedAverages(soup, cursor, cnx, teamName):
                 season = (str(i) + "/" + str(j))
                 seasonID = q
 
-                #inserts = (team,defensiveReboundPercent,seasonID,blockPercent,season,personalFoulPercent,assistsPerTurnover,stealPercent,totalReboundPercent,turnoverPercent,assistPercent,player,gamesPlayed,minutes,usagePercent,pointsPerScoringAttempt,effectiveFieldGoalPercent,threePointRate,freeThrowRate,offensiveReboundPercent)
-                #print (len(inserts))
+                inserts = (team,defensiveReboundPercent,seasonID,blockPercent,season,personalFoulPercent,assistsPerTurnover,stealPercent,totalReboundPercent,turnoverPercent,assistPercent,player,gamesPlayed,minutes,usagePercent,pointsPerScoringAttempt,effectiveFieldGoalPercent,threePointRate,freeThrowRate,offensiveReboundPercent)
+                # print (len(inserts))
 
-                #insertStats = "INSERT INTO playerAdvancedAverages (team,defensiveReboundPercent,seasonID,blockPercent,season,personalFoulPercent,assistsPerTurnover,stealPercent,totalReboundPercent,turnoverPercent,assistPercent,player,gamesPlayed,minutes,usagePercent,pointsPerScoringAttempt,effectiveFieldGoalPercent,threePointRate,freeThrowRate,offensiveReboundPercent) VALUES(%s, %s, %s, %s,%s,%s, %s, %s, %s,%s,%s, %s, %s, %s,%s,%s, %s, %s, %s,%s)"
+                insertStats = "INSERT INTO playerAdvancedAverages (team,defensiveReboundPercent,seasonID,blockPercent,season,personalFoulPercent,assistsPerTurnover,stealPercent,totalReboundPercent,turnoverPercent,assistPercent,player,gamesPlayed,minutes,usagePercent,pointsPerScoringAttempt,effectiveFieldGoalPercent,threePointRate,freeThrowRate,offensiveReboundPercent) VALUES(%s, %s, %s, %s,%s,%s, %s, %s, %s,%s,%s, %s, %s, %s,%s,%s, %s, %s, %s,%s)"
                 # inserts the stats into whatever table is designated
-                #cursor.execute(insertStats, inserts)
-                #cnx.commit()
+                cursor.execute(insertStats, inserts)
+                cnx.commit()
             print ("Finished inserting data for: " + player)
 
         i-=1
@@ -192,9 +192,9 @@ def main():
                 print (filepath)
                 # print(path_in_str)
 
-        #fill in functions that want to be done for every team
-
-    #playerBoxScores("Nicole MungerMichiganHerHoopsStats.htm", cursor, cnx, "Michigan", "Nicole Munger")
+    cursor.close()
+    cnx.commit()
+    cnx.close()
 
     return
 
