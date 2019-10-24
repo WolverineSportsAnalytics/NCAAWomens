@@ -16,12 +16,12 @@ def get_combine_data(soup):
         print rows[0].text
         print "________________________________________________________________________________________________________________________"
         i+=1
-        
+
 
     return
 
 def variousTeamStats(soup):
-    
+
     tables = soup.find_all("table")
 
     rows = tables[1].find_all("tr")
@@ -43,7 +43,7 @@ def playerAverages(soup,curosr,cnx, teamName):
         for row in rows[1:]:
             points = row.find_all("td")
             team = teamName
-            
+
             fullName = points[0].text
             gamesPlayed = points[2].text
             minutes = points[3].text
@@ -51,39 +51,39 @@ def playerAverages(soup,curosr,cnx, teamName):
             # can someone increment the rest?
             # we also need to figure out what to do if a player has empty categories aka are bench players that never played
             '''
-            fieldGoalsAttempt = 
+            fieldGoalsAttempt =
             if fieldGoalAttempt > 1:
                 fieldGoalPercent = parseFloat(point[9].text)
             else:
                 fieldGoalPercent = null
-            
-            twoPointMade = 
-            twoPointAttempt = 
-            twoPointPercent = 
-            threePointMade = 
-            threePointAttempt = 
-            threePointPercent = 
-            freeThrowMade = 
-            freeThrowAttempt = 
-            freeThrowPercent = 
-            offensiveRebound = 
-            defensiveRebound = 
-            totalRebound = 
-            assist = 
-            turnover = 
-            steal = 
-            block = 
-            personalFoul = 
-            pointsScored = 
+
+            twoPointMade =
+            twoPointAttempt =
+            twoPointPercent =
+            threePointMade =
+            threePointAttempt =
+            threePointPercent =
+            freeThrowMade =
+            freeThrowAttempt =
+            freeThrowPercent =
+            offensiveRebound =
+            defensiveRebound =
+            totalRebound =
+            assist =
+            turnover =
+            steal =
+            block =
+            personalFoul =
+            pointsScored =
             season = (i + "/" + j)
             '''
             #finish filling in the inserts list with all the variables
             inserts = (team, fullName, gamesPlayed, fieldGoalsMade, fieldGoalsAttempt)
 
             insertStats = "INSERT INTO _______ (team, fullName, gamesPlayed, fieldGoalsAttempt,...there should be twenty six variables) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            
+
             # inserts the stats into whatever table is designated
-            cursor.execute(insertStats, inserts) 
+            cursor.execute(insertStats, inserts)
             cnx.commit()
             print "Finished inserting data for: ", fullName
 
@@ -102,7 +102,7 @@ def parseFloat(str):
         return float(str)
     except:
         if str == "":
-            return 
+            return
         str = str.strip()
         if str.endswith("%"):
             return float(str.strip("%").strip())
@@ -156,14 +156,14 @@ def playerBoxScores(fileName, cursor, cnx, teamName, playerName):
             inserts = (fullName,team,date,season,opponent,home, minutes, pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threePointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,turnover,steal,block,personalFoul)
 
             insertStats = "INSERT INTO performancePlayer (fullName,team,date,season,opponent,home, minutes, pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threePointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,turnover,steal,block,personalFoul) VALUES(%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s,%s, %s, %s, %s, %s)"
-            
+
             print fieldGoalPercent
 
             print "Right before insert statement"
-            cursor.execute(insertStats, inserts) 
+            cursor.execute(insertStats, inserts)
             cnx.commit()
             print "Finished inserting data for: ", fullName
-    
+
         i-= 1
         j-=1
 
@@ -191,28 +191,28 @@ def playerAdvancedAverages(soup, cursor, cnx, teamName):
             minutes = points[3].text
             fieldGoalsMade = points[4].text
             '''
-            usagePercent = 
-            pointsPerScoringAttempt = 
-            effectiveFieldGoalPercent = 
-            threePointRate = 
-            freeThrowRate = 
-            offensiveReboundPercent = 
-            defensiveReboundPercent = 
-            totalReboundPercent = 
-            assistPercent = 
-            turnoverPercent = 
-            assistsPerTurnover = 
-            stealPercent = 
-            blockPercent = 
-            personalFoulPercent = 
+            usagePercent =
+            pointsPerScoringAttempt =
+            effectiveFieldGoalPercent =
+            threePointRate =
+            freeThrowRate =
+            offensiveReboundPercent =
+            defensiveReboundPercent =
+            totalReboundPercent =
+            assistPercent =
+            turnoverPercent =
+            assistsPerTurnover =
+            stealPercent =
+            blockPercent =
+            personalFoulPercent =
             season = (i + "/" + j)
             '''
             inserts = (team, fullName, gamesPlayed, fieldGoalsMade, fieldGoalsAttempt)
 
             insertStats = "INSERT INTO _______ (team, fullName, gamesPlayed, fieldGoalsAttempt,...there should be the same num of percent s's as variables created above) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            
+
             # inserts the stats into whatever table is designated
-            cursor.execute(insertStats, inserts) 
+            cursor.execute(insertStats, inserts)
             cnx.commit()
             print "Finished inserting data for: ", fullName
 
@@ -244,23 +244,23 @@ def playersOnTeamAllSeasons(soup, cursor, cnx, teamName):
                 fullName = fullName
             season = (str(i) + "/" + str(j))
             players.extend([fullName])
-            
+
             '''
             inserts = (fullName, team, season)
 
             insertStats = "INSERT INTO playerReference (fullName, teamName, season) VALUES (%s, %s, %s)"
             # inserts the stats into whatever table is designated
-            cursor.execute(insertStats, inserts) 
+            cursor.execute(insertStats, inserts)
             cnx.commit()
             '''
             #print "Finished inserting data for: ", fullName
-        
+
         totalPlayers = totalPlayers + players
 
         i-=1
         j-=1
 
-    
+
     totalPlayers = list(dict.fromkeys(totalPlayers))
     print totalPlayers
     return totalPlayers
@@ -280,7 +280,7 @@ def advancedScheduleStats(soup, cursor, cnx, teamName):
     for table in tables[60:64]:
         print "________________________________________________________________________________________________________________________"
         print "Advanced Schedule Stats: ", i,"/",j," season"
-        
+
         rows = table.find_all("tr")
         for row in rows[1:]:
 
@@ -308,9 +308,9 @@ def advancedScheduleStats(soup, cursor, cnx, teamName):
             inserts = (team, opponent, home,)
 
             insertStats = "INSERT INTO _______ (fullName, gamesPlayed, fieldGoalsAttempt,...there should be the same num of percent s's as variables created above) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            
+
             # inserts the stats into whatever table is designated
-            cursor.execute(insertStats, inserts) 
+            cursor.execute(insertStats, inserts)
             cnx.commit()
             print "Finished inserting data for: ", teamName, " vs. ", opponent
 
@@ -333,7 +333,7 @@ def scheduleStats(soup, cursor, cnx,teamName):
     i = 18
     j = 19
     for table in tables[56:60]:
-        
+
         print "________________________________________________________________________________________________________________________"
         print "Schedule Stats: ", i,"/",j," season"
         rows = table.find_all("tr")
@@ -359,19 +359,19 @@ def scheduleStats(soup, cursor, cnx,teamName):
             inserts = (team, opponent, home,)
 
             insertStats = "INSERT INTO _______ (fullName, gamesPlayed, fieldGoalsAttempt,...there should be the same num of percent s's as variables created above) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            
+
             # inserts the stats into whatever table is designated
-            cursor.execute(insertStats, inserts) 
+            cursor.execute(insertStats, inserts)
             cnx.commit()
             print "Finished inserting data for: ", teamName, " vs. ", opponent
-             
+
         i-=1
         j-=1
 
-    return 
+    return
 
 def main():
-    
+
     cnx = mysql.connector.connect(user="wsa",
                                   host="34.68.250.121",
                                   database="NCAAWomens",
@@ -381,7 +381,7 @@ def main():
     html = open('herHoopStatsMichigan.htm').read()
     soup = BeautifulSoup(html, 'html.parser')
     teams = ("Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin")
-    
+
     for team in teams:
         fileName = ("herHoopStats" + team + ".htm")
 
@@ -391,10 +391,10 @@ def main():
         playersOnTeamAllSeasons(teamSoup,cursor,cnx,team)
 
         #fill in functions that want to be done for every team
-    
+
     #playerBoxScores("Nicole MungerMichiganHerHoopsStats.htm", cursor, cnx, "Michigan", "Nicole Munger")
 
-    
+
 
     return
 
