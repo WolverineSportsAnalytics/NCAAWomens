@@ -277,6 +277,7 @@ def main():
     #playerGamesStats(soup, cursor, cnx, "Michigan")
     #playerNameTrial(soup,cursor,cnx,"Michigan")
 
+<<<<<<< HEAD:Scrapers/playerStatsFromPlayerFile.py
     for subdir, dirs, files in os.walk(script):
         for file in files:
             print "made it here"
@@ -294,6 +295,30 @@ def main():
 
 
 
+=======
+    
+
+    teams = ("Michigan", "MSU", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "OSU", "Penn State", "Purdue", "Rutgers", "Wisconsin")
+    
+    for team in teams:
+        script = "/Users/lissjust/Documents/NCAAWomens/Player Htm Files/" + team
+        print script
+        for subdir, dirs, files in os.walk(script):
+	        for file in files:
+	            print "made it here"
+	            #print os.path.join(subdir, file)
+	            filepath = subdir + os.sep + file
+	            if filepath.endswith(".htm"):
+	                html = open(filepath).read()
+	                soup = BeautifulSoup(html, 'html.parser')
+	                
+	                playerGamesStats(soup, cursor, cnx)
+	                print (filepath)
+	                # print(path_in_str)
+
+
+    
+>>>>>>> cc4e79df57ca30d2f663471c6840a7df0c644d74:Scrapers/playerStatsFromPlayerFile.py
 
         #fill in functions that want to be done for every team
 
