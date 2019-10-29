@@ -270,7 +270,7 @@ def main():
     teams = ("Michigan", "MSU", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "OSU", "Penn State", "Purdue", "Rutgers", "Wisconsin")
     
     for team in teams:
-        script = "/Users/cindygu/Sports/WSA/NCAAWomens/Player HTM Files/" + team
+        script = "/Users/lissjust/Documents/NCAAWomens/Player Htm Files/" + team
         print script
         for subdir, dirs, files in os.walk(script):
 	        for file in files:
