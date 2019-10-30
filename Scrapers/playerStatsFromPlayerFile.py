@@ -5,21 +5,34 @@ from ast import literal_eval
 import os
 from ast import literal_eval
 
-def playerGamesStats(soup, cursor, cnx):
+def getTeam(soup,cursor,cnx):
+    i = 18
+    j = 19
 
-    
+    print ("________________________________________________________________________________________________________________________")
+    print ("Team Info: " + str(i) + "/" + str(j) + " season")
+    list = soup.find('ul', {"class": "list-unstyled"})
+    # puts the list items into an array
+    list_items = list.findAll('li')
+    # print list_items
+    teamName = list_items[0].text
+    return teamName
+
+def playerGamesStats(soup, cursor, cnx, teamName):
+
+
     list = soup.find('ul', {"class": "list-unstyled"})
     list_items = list.findAll('li')
     player = list_items[0].text
 
     tables = soup.find_all("table")
 
-    print len(tables)
+    print (len(tables))
 
     numSeasons = (len(tables) / 7)
-    
+
     if numSeasons == 4:
-    	
+
 
     	for table in tables[24:28]:
     		rows = table.find_all("tr")
@@ -50,7 +63,7 @@ def playerGamesStats(soup, cursor, cnx):
     				threepointPercent = float(threePointMade)/float(threePointAttempt)
     			freeThrowMade = points[13].text
     			freeThrowAttempt = points[14].text
-    			
+
     			if freeThrowAttempt == "0":
     				freeThrowPercent = -111
 
@@ -64,18 +77,18 @@ def playerGamesStats(soup, cursor, cnx):
     			steal = points[21].text
     			block = points[22].text
     			personalFoul = points[23].text
-    			
 
-    			inserts = (player,date,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul)
 
-    			insertStats = "INSERT into performancePlayer (player,dateOriginal,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    			#inserts = (player,date,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul)
 
-    			cursor.execute(insertStats, inserts)
-                cnx.commit()
+    			#insertStats = "INSERT into performancePlayer (player,dateOriginal,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
-    		
+    			#cursor.execute(insertStats, inserts)
+                #cnx.commit()
+
+
     elif numSeasons == 3:
-    	
+
 
     	for table in tables[18:21]:
     		rows = table.find_all("tr")
@@ -106,7 +119,7 @@ def playerGamesStats(soup, cursor, cnx):
     				threepointPercent = float(threePointMade)/float(threePointAttempt)
     			freeThrowMade = points[13].text
     			freeThrowAttempt = points[14].text
-    			
+
     			if freeThrowAttempt == "0":
     				freeThrowPercent = -111
 
@@ -120,19 +133,19 @@ def playerGamesStats(soup, cursor, cnx):
     			steal = points[21].text
     			block = points[22].text
     			personalFoul = points[23].text
-    			
 
-    			inserts = (player,date,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul)
 
-    			insertStats = "INSERT into performancePlayer (player,dateOriginal,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    			#inserts = (player,date,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul)
 
-    			cursor.execute(insertStats, inserts)
-                cnx.commit()
+    			#insertStats = "INSERT into performancePlayer (player,dateOriginal,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
-    		
+    			#cursor.execute(insertStats, inserts)
+                #cnx.commit()
+
+
 
     elif numSeasons == 2:
-    	
+
 
     	for table in tables[12:14]:
     		rows = table.find_all("tr")
@@ -163,7 +176,7 @@ def playerGamesStats(soup, cursor, cnx):
     				threepointPercent = float(threePointMade)/float(threePointAttempt)
     			freeThrowMade = points[13].text
     			freeThrowAttempt = points[14].text
-    			
+
     			if freeThrowAttempt == "0":
     				freeThrowPercent = -111
 
@@ -177,17 +190,17 @@ def playerGamesStats(soup, cursor, cnx):
     			steal = points[21].text
     			block = points[22].text
     			personalFoul = points[23].text
-    			
 
-    			inserts = (player,date,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul)
 
-    			insertStats = "INSERT into performancePlayer (player,dateOriginal,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    			#inserts = (player,date,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul)
 
-    			cursor.execute(insertStats, inserts)
-                cnx.commit()
+    			#insertStats = "INSERT into performancePlayer (player,dateOriginal,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+
+    			#cursor.execute(insertStats, inserts)
+                #cnx.commit()
 
     elif numSeasons == 1:
-    	
+
 
     	for table in tables[6:7]:
     		rows = table.find_all("tr")
@@ -218,7 +231,7 @@ def playerGamesStats(soup, cursor, cnx):
     				threepointPercent = float(threePointMade)/float(threePointAttempt)
     			freeThrowMade = points[13].text
     			freeThrowAttempt = points[14].text
-    			
+
     			if freeThrowAttempt == "0":
     				freeThrowPercent = -111
 
@@ -232,23 +245,22 @@ def playerGamesStats(soup, cursor, cnx):
     			steal = points[21].text
     			block = points[22].text
     			personalFoul = points[23].text
-    			
+                print(personalFoul)
 
-    			inserts = (player,date,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul)
+                #inserts = (player,date,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul)
+                #insertStats = "INSERT into performancePlayer (player,dateOriginal,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
-    			insertStats = "INSERT into performancePlayer (player,dateOriginal,home,opponent,minutes,pointsScored,fieldGoalMade,fieldGoalAttempt,fieldGoalPercent,threePointMade,threePointAttempt,threepointPercent,freeThrowMade,freeThrowAttempt,freeThrowPercent,offensiveRebound,defensiveRebound,totalRebound,assist,steal,turnover,block,personalFoul) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-
-    			cursor.execute(insertStats, inserts)
-                cnx.commit()
+    			#cursor.execute(insertStats, inserts)
+                #cnx.commit()
     return
 
-    		
+
 
 def playerNameTrial(soup,cursor,cnx,teamName):
 	list = soup.find('ul', {"class": "list-unstyled"})
 	list_items = list.findAll('li')
 	playerName = list_items[0].text
-	
+
 
 def main():
 
@@ -261,10 +273,29 @@ def main():
     #html = open('nicolemunger.htm').read()
     #soup = BeautifulSoup(html, 'html.parser')
 
-    
+
     #playerGamesStats(soup, cursor, cnx, "Michigan")
     #playerNameTrial(soup,cursor,cnx,"Michigan")
 
+<<<<<<< HEAD:Scrapers/playerStatsFromPlayerFile.py
+    for subdir, dirs, files in os.walk(script):
+        for file in files:
+            print "made it here"
+            #print os.path.join(subdir, file)
+            filepath = subdir + os.sep + file
+            if filepath.endswith(".htm"):
+                html = open(filepath).read()
+                soup = BeautifulSoup(html, 'html.parser')
+                teamName = getTeam(soup, cursor, cnx)
+                if teamName != "":
+                    playerGamesStats(soup, cursor, cnx, teamName)
+                    print (filepath)
+                # print(path_in_str)
+
+
+
+
+=======
     
 
     teams = ("Michigan", "MSU", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "OSU", "Penn State", "Purdue", "Rutgers", "Wisconsin")
@@ -287,12 +318,13 @@ def main():
 
 
     
+>>>>>>> cc4e79df57ca30d2f663471c6840a7df0c644d74:Scrapers/playerStatsFromPlayerFile.py
 
         #fill in functions that want to be done for every team
 
     #playerBoxScores("Nicole MungerMichiganHerHoopsStats.htm", cursor, cnx, "Michigan", "Nicole Munger")
 
-    
+
     return
 
 
