@@ -7,17 +7,7 @@ from ast import literal_eval
 
 def teamVSPosition(soup, cursor, cnx, teamName, seasonID, position):
 
-	features = ('playerPerformanceID', 'player',
-	    'team',
-	    'date',
-	    'dateID',
-	    'dateOriginal',
-	    'season',
-	    'seasonID',
-	    'opponent',
-	    'opponentTeamID',
-	    'home',
-	    'minutes',
+	features = (
 	    'pointsScored',
 	    'fieldGoalMade',
 	    'fieldGoalAttempt',
@@ -48,7 +38,7 @@ def teamVSPosition(soup, cursor, cnx, teamName, seasonID, position):
 
 		print averageOfFeature
 
-		insertFeature = "INSERT into teamVS",position, "(", feature, ") VALUES (%s)"
+		insertFeature = "UPDATE teamVs",position, " SET (", feature, ") = ", averageOfFeature, " where team == ", teamName, " and seasonID == ", seasonID
 		
 		cursor.execute(averageOfFeature, insertFeature)
 
@@ -74,12 +64,18 @@ def main():
 	    for position in positions:
 		    teams = ("Michigan", "MSU", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "OSU", "Penn State", "Purdue", "Rutgers", "Wisconsin")
 		    for team in teams:
+		    	
 		    	teamName = team
 		    	fileName = "herHoopsStats" + team
+		    	statement = "INSERT into teamVs", position, " (team, seasonID) VALUES(%s, %s)"
+		    	inserts = (team, seasonsID)
+
+		    	cursor.execute(inserts, statement)
 
 		    	teamFile = open(fileName).read()
 		        teamSoup = BeautifulSoup(teamFile, 'html.parser')
 		    	teamVSPosition(teamSoup, cursor, cnx, teamName, seasonID, position)
+
 	    
 
 if __name__=="__main__":
