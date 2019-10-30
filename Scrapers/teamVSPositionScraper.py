@@ -45,6 +45,7 @@ def teamVSPosition(soup, cursor, cnx, teamName, seasonID, position):
 		featureStats = cursor.fetch_all()
 
 		averageOfFeature = avg(featureStats)
+
 		print averageOfFeature
 
 		insertFeature = "INSERT into teamVS",position, "(", feature, ") VALUES (%s)"
