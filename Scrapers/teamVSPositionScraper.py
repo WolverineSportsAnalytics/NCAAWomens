@@ -5,19 +5,16 @@ from ast import literal_eval
 import os
 from ast import literal_eval
 
-def teamVSPosition(soup, cursor, cnx, teamName, seasonID, position):
+def teamVSPosition(cursor, cnx, teamName, seasonID, position):
 
-	features = (
+	features = [
 	    'pointsScored',
 	    'fieldGoalMade',
 	    'fieldGoalAttempt',
-	    'fieldGoalPercent',
 	    'threePointMade',
 	    'threePointAttempt',
-	    'threePointPercent',
 	    'freeThrowMade',
 	    'freeThrowAttempt',
-	    'freeThrowPercent',
 	    'offensiveRebound',
 	    'defensiveRebound',
 	    'totalRebound',
@@ -25,22 +22,24 @@ def teamVSPosition(soup, cursor, cnx, teamName, seasonID, position):
 	    'turnover',
 	    'steal',
 	    'block',
-	    'personalFoul',
-	    'playerID')
+	    'personalFoul']
 	
 	for feature in features:
-		featureStats = "SELECT ", feature, " from performancePlayer where position == ",position," and opponentTeam == ", teamName, " and seasonID == ", seasonID
-		cursor.execute(featureStats)
+		
+	
+		featureStatement = "SELECT " + feature + " from performancePlayer where position = " + position + " and opponentTeam = " + teamName + " and seasonID = " + str(seasonID)
+		print featureStatement
+		cursor.execute(featureStatement)
 
 		featureStats = cursor.fetch_all()
 
-		averageOfFeature = avg(featureStats)
+		sumOfFeature = sum(featureStats)
 
-		print averageOfFeature
+		print sumOfFeature
 
-		insertFeature = "UPDATE teamVs",position, " SET (", feature, ") = ", averageOfFeature, " where team == ", teamName, " and seasonID == ", seasonID
+		insertFeature = "UPDATE teamVs" + position +  " SET (" + feature + ") = "+ sumOfFeature + " where team == "+ teamName+ " and seasonID == "+ str(seasonID)
 		
-		cursor.execute(averageOfFeature, insertFeature)
+		cursor.execute(sumOfFeature, insertFeature)
 
 	return
 
@@ -58,23 +57,22 @@ def main():
     
     
     
-    seasonIDs = (1,2,3,4)
+    seasonIDs = [1,2,3,4]
     for seasonID in seasonIDs:
-	    positions = ("G", "F", "C")
+	    positions = ["G", "F", "C"]
 	    for position in positions:
-		    teams = ("Michigan", "MSU", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "OSU", "Penn State", "Purdue", "Rutgers", "Wisconsin")
+		    teams = ["Michigan", "MSU", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "OSU", "Penn State", "Purdue", "Rutgers", "Wisconsin"]
 		    for team in teams:
 		    	
-		    	teamName = team
-		    	fileName = "herHoopsStats" + team
-		    	statement = "INSERT into teamVs", position, " (team, seasonID) VALUES(%s, %s)"
-		    	inserts = (team, seasonsID)
+		    	
+		    	
+		    	statement = "INSERT into teamVs" + position+ " (team, seasonID) VALUES(%s, %s)"
+		    	inserts = [team, seasonID]
+		    	
 
-		    	cursor.execute(inserts, statement)
+		    	#cursor.execute(inserts, statements)
 
-		    	teamFile = open(fileName).read()
-		        teamSoup = BeautifulSoup(teamFile, 'html.parser')
-		    	teamVSPosition(teamSoup, cursor, cnx, teamName, seasonID, position)
+		    	teamVSPosition(cursor, cnx, team, seasonID, position)
 
 	    
 

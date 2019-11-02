@@ -41,6 +41,7 @@ def advancedScheduleStats(soup, cursor, cnx, teamName):
                 home = 1
             else:
                 home = 0
+        
             team = teamName
             offensiveRating = float(points[5].text)
             # print("Offensive Rating:" + str(offensiveRating))
