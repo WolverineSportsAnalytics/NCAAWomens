@@ -5,7 +5,7 @@ from ast import literal_eval
 import os
 from ast import literal_eval
 
-def teamVSPosition(cursor, cnx, teamName, seasonID, position):
+def teamVSPosition(cursor, cnx, teamName, seasonID, position, positionID):
 
 	features = [
 	    'pointsScored',
@@ -27,19 +27,27 @@ def teamVSPosition(cursor, cnx, teamName, seasonID, position):
 	for feature in features:
 		
 	
-		featureStatement = "SELECT " + feature + " from performancePlayer where position = " + position + " and opponentTeam = " + teamName + " and seasonID = " + str(seasonID)
-		print featureStatement
+		featureStatement = "SELECT " + feature + " from performancePlayer where positionID = '" + str(positionID) + "' and opponent = '" + teamName + "' and seasonID = " + str(seasonID)
+		#featureStatement = "SELECT pointsScored from performancePlayer where position = 'F' and opponent = 'Michigan' and seasonID = 1"
+		
 		cursor.execute(featureStatement)
 
-		featureStats = cursor.fetch_all()
-
-		sumOfFeature = sum(featureStats)
-
-		print sumOfFeature
-
-		insertFeature = "UPDATE teamVs" + position +  " SET (" + feature + ") = "+ sumOfFeature + " where team == "+ teamName+ " and seasonID == "+ str(seasonID)
+		stats = cursor.fetchall()
+		sumStat = 0
+		for stat in stats:
+			sumStat += stat[0]
 		
-		cursor.execute(sumOfFeature, insertFeature)
+
+		
+		
+
+		print sumStat
+
+		insertFeature = "UPDATE teamVsPosition SET " + feature + " = " + str(sumStat) + " where team = '"+ teamName+ "' and seasonID = "+ str(seasonID) +" and positionID = "+ str(positionID)
+		print insertFeature
+		
+		cursor.execute(insertFeature)
+		cnx.commit()
 
 	return
 
@@ -56,23 +64,31 @@ def main():
 
     
     
-    
+    i = 0
     seasonIDs = [1,2,3,4]
     for seasonID in seasonIDs:
 	    positions = ["G", "F", "C"]
 	    for position in positions:
-		    teams = ["Michigan", "MSU", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "OSU", "Penn State", "Purdue", "Rutgers", "Wisconsin"]
+		    teams = ["Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin"]
 		    for team in teams:
 		    	
 		    	
+		    	if position == "G":
+		    		positionID = 1
+		    	elif position == "F":
+		    		positionID = 2
+		    	else:
+		    		positionID = 3
 		    	
-		    	statement = "INSERT into teamVs" + position+ " (team, seasonID) VALUES(%s, %s)"
-		    	inserts = [team, seasonID]
-		    	
+		    	statement = "INSERT into teamVsPosition values (" + str(i) + ",'" + team + "','" + position + "'," + str(positionID) + ",0, 'nothing'," + str(seasonID) + ",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)"
+		    	i += 1
+		    	print statement
+		    	cursor.execute(statement)
+		    	cnx.commit()
 
 		    	#cursor.execute(inserts, statements)
 
-		    	teamVSPosition(cursor, cnx, team, seasonID, position)
+		    	teamVSPosition(cursor, cnx, team, seasonID, position, positionID)
 
 	    
 
