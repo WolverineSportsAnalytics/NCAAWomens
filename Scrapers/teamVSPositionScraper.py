@@ -27,7 +27,7 @@ def teamVSPosition(cursor, cnx, teamName, seasonID, position, positionID):
 	for feature in features:
 		
 	
-		featureStatement = "SELECT " + feature + " from performancePlayer where positionID = '" + str(positionID) + "' and opponent = '" + teamName + "' and seasonID = " + str(seasonID)
+		featureStatement = "SELECT " + feature + " from performancePlayer where positionID = '" + str(positionID) + "' and opponent = '" + teamName + "' and seasonID = " + str(seasonID) + " and ((seasonID = 1 and dateID < ___) or (seasonID = 2 and dateID < ___)..."
 		#featureStatement = "SELECT pointsScored from performancePlayer where position = 'F' and opponent = 'Michigan' and seasonID = 1"
 		
 		cursor.execute(featureStatement)

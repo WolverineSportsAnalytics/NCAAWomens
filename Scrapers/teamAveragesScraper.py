@@ -26,7 +26,7 @@ def getTeamShooting(soup, cursor, cnx):
     j = 19
     
     # you have to determine which tables contain the information you want and then only iderate through those tables
-    for table in tables[56:60]:
+    for table in tables[9:13]:
 
         print "________________________________________________________________________________________________________________________"
         print "Season ____: ", i,"/",j," season"
