@@ -67,31 +67,57 @@ def getTeamShooting(soup, cursor, cnx, teamName):
     print "Finished inserting data for: " + teamName
     return
 
-def getTeamRebounding(soup, cursor, cnx):
+def getTeamRebounding(soup, cursor, cnx, teamName):
 
-
+    #table 12 18/19 stats
+    #table 13 17/18 stats
+    #table 14 16/17 stats
+    #table 15 15/16 stats
 
     tables = soup.find_all("table")
 
-    i = 18
-    j = 19
-
+    i = 15
+    j = 16
+    statistic = list() #stack
     # you have to determine which tables contain the information you want and then only iderate through those tables
-    for table in tables[56:60]:
+    for table in tables[12:16]:
 
-        print "________________________________________________________________________________________________________________________"
-        print "Season Averages: ", i,"/",j," season"
         rows = table.find_all("tr")
         for row in rows[1:]:
-            print "TODO"
-        i-=1
-        j-=1
+            stat = row.find_all("td")
+            percentage = float(stat[3].text.strip('%'))
+            #adds each percentage into the stack
+            statistic.append(percentage)
 
+    for x in range(4):
+        print "________________________________________________________________________________________________________________________"
+        print "Team rebounding: ", i,"/",j," season"
+
+        #since this is a stack, pop in reverse order of statistics on database
+        totRebRate = statistic.pop()
+        totRebsPerGame = statistic.pop()
+        defRebRate = statistic.pop()
+        defRebsPerGame = statistic.pop()
+        offRebRate = statistic.pop()
+        offRebsPerGame = statistic.pop()
+
+        inserts = (offRebsPerGame, offRebRate, defRebsPerGame, defRebRate, totRebsPerGame, totRebRate)
+        print inserts
+        #insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        i+=1
+        j+=1
+    # inserts the stats into whatever table is designated
+    #cursor.execute(insertStats, inserts)
+    #cnx.commit()
+    print "Finished inserting data for: " + teamName
     return
 
 def getTeamOther(soup, cursor, cnx):
 
-
+    #table 16 18/19 stats
+    #table 17 17/18 stats
+    #table 18 16/17 stats
+    #table 19 15/16 stats
 
     tables = soup.find_all("table")
 
@@ -114,7 +140,10 @@ def getTeamOther(soup, cursor, cnx):
 
 def getTeamScoringTotals(soup, cursor, cnx):
 
-
+    #table 20 18/19 stats
+    #table 21 17/18 stats
+    #table 22 16/17 stats
+    #table 23 15/16 stats
 
     tables = soup.find_all("table")
 
@@ -137,7 +166,10 @@ def getTeamScoringTotals(soup, cursor, cnx):
 
 def getTeamBonus(soup, cursor, cnx):
 
-
+    #table 24 18/19 stats
+    #table 25 17/18 stats
+    #table 26 16/17 stats
+    #table 27 15/16 stats
 
     tables = soup.find_all("table")
 
