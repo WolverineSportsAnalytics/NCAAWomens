@@ -370,15 +370,14 @@ def main():
     for seasonID in seasonIDs:
         teams = ["Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin"]
         for team in teams:
-            if position == "G":
-                positionID = 1
-            elif position == "F":
-                positionID = 2
-            else:
-                positionID = 3
 
             #make the default values in database all 0s
-            statement = "INSERT INTO teamAverages() VALUES(%s)"
+            statement = "INSERT INTO teamAverages VALUES(%s,)"
+            inserts = (team, 0, seasonID, 0,)
+
+            cursor.execute(inserts, statement)
+            print statement
+            cnx.commit()
 
             getSeasonOverview(soup, cursor, cnx, teamName)
             getTeamShooting(soup, cursor, cnx, teamName)
@@ -388,9 +387,6 @@ def main():
             getTeamBonus(soup, cursor, cnx, teamName)
 
             #cursor.close()
-            print statement
-            cursor.execute(statement)
-            cnx.commit()
             #cnx.close()
 
     return
