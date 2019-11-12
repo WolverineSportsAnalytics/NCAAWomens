@@ -7,7 +7,7 @@ def getTeam(soup,cursor,cnx):
     i = 18
     j = 19
 
-    print "________________________________________________________________________________________________________________________"
+    print "_______________________________________________________________________________________________________"
     print "Team Info: " + str(i) + "/" + str(j) + " season"
     list = soup.find('ul', {"class": "list-unstyled"})
     # puts the list items into an array
@@ -37,8 +37,8 @@ def getTeamShooting(soup, cursor, cnx, teamName):
             #adds each percentage into the stack
             statistic.append(percentage)
 
-    for x in range(4):
-        print "________________________________________________________________________________________________________________________"
+        #print team shooting to test
+        print "_______________________________________________________________________________"
         print "Team shooting: ", i,"/",j," season"
 
         #since this is a stack, pop in reverse order of statistics on database
@@ -89,8 +89,8 @@ def getTeamRebounding(soup, cursor, cnx, teamName):
             #adds each percentage into the stack
             statistic.append(percentage)
 
-    for x in range(4):
-        print "________________________________________________________________________________________________________________________"
+        #pint team rebounding to test
+        print "__________________________________________________________________________________________________"
         print "Team rebounding: ", i,"/",j," season"
 
         #since this is a stack, pop in reverse order of statistics on database
