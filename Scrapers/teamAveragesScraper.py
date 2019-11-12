@@ -114,7 +114,7 @@ def getTeamRebounding(soup, cursor, cnx, teamName):
     print "Finished inserting data for: " + teamName
     return
 
-def getTeamOther(soup, cursor, cnx):
+def getTeamOther(soup, cursor, cnx, teamName):
 
     #table 16 18/19 stats
     #table 17 17/18 stats
@@ -123,20 +123,41 @@ def getTeamOther(soup, cursor, cnx):
 
     tables = soup.find_all("table")
 
-    i = 18
-    j = 19
+    i = 15
+    j = 16
+    statistic = list() #stack
 
     # you have to determine which tables contain the information you want and then only iderate through those tables
-    for table in tables[56:60]:
+    for table in tables[16:20]:
 
-        print "________________________________________________________________________________________________________________________"
-        print "Season ____: ", i,"/",j," season"
         rows = table.find_all("tr")
         for row in rows[1:]:
-            print "TODO"
+            stat = row.find_all("td")
+            percentage = float(stat[3].text.strip('%'))
+            #adds each percentage into the stack
+            statistic.append(percentage)
 
-        i-=1
-        j-=1
+        #print team other to test
+        print "__________________________________________________________________________________________________"
+        print "Team other: ", i,"/",j," season"
+
+        #since this is a stack, pop in reverse order of statistics on database
+        foulRate = statistic.pop()
+        foulPerGame = statistic.pop()
+        blkRate = statistic.pop()
+        blkPerGame = statistic.pop()
+        stlRate = statistic.pop()
+        stlPerGame = statistic.pop()
+        assistTO = statistic.pop()
+        TORate = statistic.pop()
+        TOPerGame = statistic.pop()
+        assistedShotRate = statistic.pop()
+        assistPerGame = statistic.pop()
+
+        inserts = (assistPerGame, assistedShotRate, TOPerGame, TORate, assistTO, stlPerGame, stlRate, blkPerGame, blkRate, foulPerGame, foulRate)
+        print inserts
+        i+=1
+        j+=1
 
     return
 
@@ -267,7 +288,7 @@ def main():
     html = open(file).read()
     soup = BeautifulSoup(html, 'html.parser')
     teamName = getTeam(soup, cursor, cnx)
-    getTeamScoringTotals(soup, cursor, cnx, teamName)
+    getTeamOther(soup, cursor, cnx, teamName)
 
 
     cursor.close()
