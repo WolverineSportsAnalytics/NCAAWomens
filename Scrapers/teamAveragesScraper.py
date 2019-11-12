@@ -4,16 +4,16 @@ from bs4 import BeautifulSoup
 import os
 
 def getTeam(soup,cursor,cnx):
-    i = 18
-    j = 19
+    #i = 18
+    # = 19
 
-    print "_______________________________________________________________________________________________________"
-    print "Team Info: " + str(i) + "/" + str(j) + " season"
+    #print "Team Info: " + str(i) + "/" + str(j) + " season"
     list = soup.find('ul', {"class": "list-unstyled"})
     # puts the list items into an array
     list_items = list.findAll('li')
     # print list_items
     teamName = list_items[0].text
+    print "Team: " + teamName
     return teamName
 
 def getTeamShooting(soup, cursor, cnx, teamName):
@@ -38,7 +38,7 @@ def getTeamShooting(soup, cursor, cnx, teamName):
             statistic.append(percentage)
 
         #print team shooting to test
-        print "_______________________________________________________________________________"
+        print "--------------------------------------------------------------------------"
         print "Team shooting: ", i,"/",j," season"
 
         #since this is a stack, pop in reverse order of statistics on database
@@ -64,6 +64,7 @@ def getTeamShooting(soup, cursor, cnx, teamName):
     # inserts the stats into whatever table is designated
     #cursor.execute(insertStats, inserts)
     #cnx.commit()
+    print "--------------------------------------------------------------------------"
     print "Finished inserting data for: " + teamName
     return
 
@@ -90,7 +91,7 @@ def getTeamRebounding(soup, cursor, cnx, teamName):
             statistic.append(percentage)
 
         #pint team rebounding to test
-        print "__________________________________________________________________________________________________"
+        print "-----------------------------------------------------------------------"
         print "Team rebounding: ", i,"/",j," season"
 
         #since this is a stack, pop in reverse order of statistics on database
@@ -109,6 +110,7 @@ def getTeamRebounding(soup, cursor, cnx, teamName):
     # inserts the stats into whatever table is designated
     #cursor.execute(insertStats, inserts)
     #cnx.commit()
+    print "-----------------------------------------------------------------------"
     print "Finished inserting data for: " + teamName
     return
 
@@ -138,7 +140,7 @@ def getTeamOther(soup, cursor, cnx):
 
     return
 
-def getTeamScoringTotals(soup, cursor, cnx):
+def getTeamScoringTotals(soup, cursor, cnx, teamName):
 
     #table 20 18/19 stats
     #table 21 17/18 stats
@@ -147,21 +149,45 @@ def getTeamScoringTotals(soup, cursor, cnx):
 
     tables = soup.find_all("table")
 
-    i = 18
-    j = 19
-
+    i = 15
+    j = 16
+    statistic = list() #stack
     # you have to determine which tables contain the information you want and then only iderate through those tables
-    for table in tables[56:60]:
+    for table in tables[20:24]:
 
-        print "________________________________________________________________________________________________________________________"
-        print "Season ___: ", i,"/",j," season"
         rows = table.find_all("tr")
         for row in rows[1:]:
-            print "TODO"
+            stat = row.find_all("td")
+            percentage = int(stat[3].text.replace(',', ''))
+            #adds each percentage into the stack
+            statistic.append(percentage)
 
-        i-=1
-        j-=1
+        #pint team scoring totals to test
+        print "-----------------------------------------------------------------------"
+        print "Team Scoring Totals: ", i,"/",j," season"
 
+        #since this is a stack, pop in reverse order of statistics on database
+        ftTripsTOTAL = statistic.pop()
+        ftAttemptTOTAL = statistic.pop()
+        ftMadeTOTAL = statistic.pop()
+        ThreePtAttemptTOTAL = statistic.pop()
+        ThreePtMadeTOTAL = statistic.pop()
+        TwoPtAttemptTOTAL = statistic.pop()
+        TwoPtMadeTOTAL = statistic.pop()
+        FGattemptTOTAL = statistic.pop()
+        FGmadeTOTAL = statistic.pop()
+        ptsTOTAL = statistic.pop()
+
+        inserts = (ptsTOTAL, FGmadeTOTAL, FGattemptTOTAL, TwoPtMadeTOTAL, TwoPtAttemptTOTAL, ThreePtMadeTOTAL, ThreePtAttemptTOTAL, ftMadeTOTAL, ftAttemptTOTAL, ftTripsTOTAL)
+        print inserts
+        #insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        i+=1
+        j+=1
+    # inserts the stats into whatever table is designated
+    #cursor.execute(insertStats, inserts)
+    #cnx.commit()
+    print "-----------------------------------------------------------------------"
+    print "Finished inserting data for: " + teamName
     return
 
 def getTeamBonus(soup, cursor, cnx):
@@ -216,7 +242,7 @@ def main():
     html = open(file).read()
     soup = BeautifulSoup(html, 'html.parser')
     teamName = getTeam(soup, cursor, cnx)
-    getTeamShooting(soup, cursor, cnx, teamName)
+    getTeamScoringTotals(soup, cursor, cnx, teamName)
 
 
     cursor.close()
