@@ -233,23 +233,22 @@ def getTeamBonus(soup, cursor, cnx, teamName):
             #adds each percentage into the stack
             statistic.append(percentage)
 
-        #pint team scoring totals to test
+        #pint team other totals to test
         print "-----------------------------------------------------------------------"
         print "Team Scoring Totals: ", i,"/",j," season"
 
         #since this is a stack, pop in reverse order of statistics on database
-        ftTripsTOTAL = statistic.pop()
-        ftAttemptTOTAL = statistic.pop()
-        ftMadeTOTAL = statistic.pop()
-        ThreePtAttemptTOTAL = statistic.pop()
-        ThreePtMadeTOTAL = statistic.pop()
-        TwoPtAttemptTOTAL = statistic.pop()
-        TwoPtMadeTOTAL = statistic.pop()
-        FGattemptTOTAL = statistic.pop()
-        FGmadeTOTAL = statistic.pop()
-        ptsTOTAL = statistic.pop()
+        Fouls = statistic.pop()
+        Blocks = statistic.pop()
+        Steals = statistic.pop()
+        Turnovers = statistic.pop()
+        Assists = statistic.pop()
+        TotalRebs = statistic.pop()
+        DefRebs = statistic.pop()
+        OffRebs = statistic.pop()
+        Minutes = statistic.pop()
 
-        inserts = (ptsTOTAL, FGmadeTOTAL, FGattemptTOTAL, TwoPtMadeTOTAL, TwoPtAttemptTOTAL, ThreePtMadeTOTAL, ThreePtAttemptTOTAL, ftMadeTOTAL, ftAttemptTOTAL, ftTripsTOTAL)
+        inserts = (Minutes, OffRebs, DefRebs, TotalRebs, Assists, Turnovers, Steals, Blocks, Fouls)
         print inserts
         #insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         i+=1
@@ -288,7 +287,7 @@ def main():
     html = open(file).read()
     soup = BeautifulSoup(html, 'html.parser')
     teamName = getTeam(soup, cursor, cnx)
-    getTeamOther(soup, cursor, cnx, teamName)
+    getTeamBonus(soup, cursor, cnx, teamName)
 
 
     cursor.close()
