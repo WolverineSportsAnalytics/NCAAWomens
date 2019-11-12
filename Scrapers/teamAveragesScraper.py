@@ -16,6 +16,61 @@ def getTeam(soup,cursor,cnx):
     print "Team: " + teamName
     return teamName
 
+def getSeasonOverview(soup, cursor, cnx, teamName):
+    #table 0 18/19 stats
+    #table 1 17/18 stats
+    #table 2 16/17 stats
+    #table 3 15/16 stats
+
+    tables = soup.find_all("table")
+
+    i = 15
+    j = 16
+    statistic = list()
+
+    # you have to determine which tables contain the information you want and then only iderate through those tables
+    for table in tables[0:4]:
+        #ptsPer100Poss is row 7
+        #oppPtsPer100Poss is row 8
+        #possPer40Min is row 10
+
+        rows = table.find_all("tr")
+
+        row7 = rows[7]
+        row8 = rows[8]
+        row10 = rows[10]
+
+        perStats = (row7, row8, row10)
+
+        for stat in perStats:
+            num = stat.find_all("td")
+            percentage = float(num[3].text)
+            #adds each percentage into the stack
+            statistic.append(percentage)
+
+        #print team overview to test
+        print "--------------------------------------------------------------------------"
+        print "Team Overview: ", i,"/",j," season"
+
+        #since this is a stack, pop in reverse order of statistics on database
+        possPer40Min = statistic.pop()
+        oppPtsPer100Poss = statistic.pop()
+        ptsPer100Poss = statistic.pop()
+
+        inserts = (ptsPer100Poss, oppPtsPer100Poss, possPer40Min)
+        print inserts
+        #insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        i+=1
+        j+=1
+
+    # inserts the stats into whatever table is designated
+    #cursor.execute(insertStats, inserts)
+    #cnx.commit()
+    print "--------------------------------------------------------------------------"
+    print "Finished inserting data for: " + teamName
+
+    return
+
 def getTeamShooting(soup, cursor, cnx, teamName):
     #table 8 18/19 stats
     #table 9 17/18 stats
@@ -287,7 +342,7 @@ def main():
     html = open(file).read()
     soup = BeautifulSoup(html, 'html.parser')
     teamName = getTeam(soup, cursor, cnx)
-    getTeamBonus(soup, cursor, cnx, teamName)
+    getSeasonOverview(soup, cursor, cnx, teamName)
 
 
     cursor.close()
