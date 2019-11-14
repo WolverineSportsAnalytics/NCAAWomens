@@ -1,0 +1,19 @@
+import mysql.connector
+import requests
+from bs4 import BeautifulSoup
+from ast import literal_eval
+import os
+from ast import literal_eval
+
+def main():
+
+	# the results will need to have certain things popped off
+	teamVsOtherTeamBoxscore = "SELECT distinct * FROM advancedScheduleStats t1 right JOIN advancedScheduleStats t2 ON t1.teamID = t2.opponentTeamID and t1.dateID = t2.dateID where t1.teamID < 15 and t1.opponentTeamID < 15"
+
+
+
+
+
+
+if __name__=="__main__":
+    main()
