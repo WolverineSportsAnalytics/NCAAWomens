@@ -3,6 +3,14 @@ Data on the Michigan Women's Basketball Team
 '''
 Instructions for creating Excel file for presenting to the Michigan Women's Basketball Team in preparation for upcoming games:
 
+Files that must be downloaded:
+These files must be uploaded /upcomingFilesNeeded/
+
+    1. Michigan file (team)
+      - Each player file must be downloaded and put in the proper sub-folder
+    2. Upcoming opponents files (team)
+      - Each player file must be downloaded and put in the proper sub-folder
+
 What we need updated from HerHoopStats.com scraping for both Michigan and Opponent team:
 
   1. performancePlayer table
@@ -52,10 +60,3 @@ Excel work that must be done:
       - team vs. G, F, C
       - team by G, F, C
 
-Files that must be downloaded:
-These files must be uploaded /upcomingFilesNeeded/
-
-    1. Michigan file (team)
-      - Each player file must be downloaded and put in the proper sub-folder
-    2. Upcoming opponents files (team)
-      - Each player file must be downloaded and put in the proper sub-folder
