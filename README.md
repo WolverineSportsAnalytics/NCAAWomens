@@ -53,3 +53,9 @@ Excel work that must be done:
       - team by G, F, C
 
 Files that must be downloaded:
+These files must be uploaded /upcomingFilesNeeded/
+
+    1. Michigan file (team)
+      - Each player file must be downloaded and put in the proper sub-folder
+    2. Upcoming opponents files (team)
+      - Each player file must be downloaded and put in the proper sub-folder
