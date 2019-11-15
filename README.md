@@ -36,4 +36,9 @@ What extrapolating we need updated after scraping data:
   2. teamVsPosition
   3. teamByPosition
   4. teamBoxScore
+  
+    To do so:
+    
+    1. MUST CREATE scraper or SQL code that does this function
+    2. 
 
