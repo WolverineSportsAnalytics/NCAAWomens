@@ -40,5 +40,16 @@ What extrapolating we need updated after scraping data:
     To do so:
     
     1. MUST CREATE scraper or SQL code that does this function
-    2. 
+    2. run /Scrapers/teamVSPositionScraper and remember to use an insert statement prior to running it for this season's teams
+    3. run /Scrapers/teamByPositionScraper and remember to use an insert statement prior to running it for this season's teams
+    4. MUST CREATE scraper for creating TeamBoxScore 
 
+Excel work that must be done:
+
+    1. Update table that contains:
+      - HOME avgAdvancedScheduleStatsTable (team)
+      - AWAY avgAdvancedScheduleStatsTable (team)
+      - team vs. G, F, C
+      - team by G, F, C
+
+Files that must be downloaded:
