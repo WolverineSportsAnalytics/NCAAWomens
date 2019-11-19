@@ -5,15 +5,23 @@ from ast import literal_eval
 import os
 from ast import literal_eval
 
+
+
 def main():
 
-	# the results will need to have certain things popped off
-	teamVsOtherTeamBoxscore = "SELECT distinct * FROM advancedScheduleStats t1 right JOIN advancedScheduleStats t2 ON t1.teamID = t2.opponentTeamID and t1.dateID = t2.dateID where t1.teamID < 15 and t1.opponentTeamID < 15"
+    # the results will need to have certain things popped off
+    teamVsOtherTeamBoxscore = "SELECT distinct * FROM advancedScheduleStats t1 right JOIN advancedScheduleStats t2 ON t1.teamID = t2.opponentTeamID and t1.dateID = t2.dateID where t1.teamID < 15 and t1.opponentTeamID < 15"
 
+    testFirstModel = "SELECT a.win, from advancedScheduleStats a right join avgAdvancedScheduleStats b on  a.team = b.team and a.seasonID = b.seasonID and a.home = b.home  right join avgAdvancedScheduleStats c on a.opponent = c.team and a.seasonID = c.seasonID where a.teamID < 15 and a.home = 1 and c.home = 0"
+    statement = "SELECT a.win, b.offRtg, c.offRtg, b.pace, c.pace, b.ptsPerScoringAttempt, b.ftPercent, b.2PtPercent, b.3PtPercent, b.offRebPercent, b.assistPercent, b.blockPercent, d.simpleRPI, c.ptsPerScoringAttempt, c.ftPercent, c.2PtPercent, c.3PtPercent, c.offRebPercent, c.assistPercent, c.blockPercent, e.simpleRPI from advancedScheduleStats a right join avgAdvancedScheduleStats b on  a.team = b.team and a.seasonID = b.seasonID and a.home = b.home  right join avgAdvancedScheduleStats c on a.opponent = c.team and a.seasonID = c.seasonID right join scheduleStats d ON a.team = d.team and a.dateID = d.dateID right join scheduleStats e on  a.opponent = e.team and a.dateID = e.dateID where a.teamID < 15 and a.home = 1 and c.home = 0"
+    
+    cnx = mysql.connector.connect(user="wsa",
+                                  host="34.68.250.121",
+                                  database="NCAAWomens",
+                                  password="LeBron>MJ!")
+    cursor = cnx.cursor(buffered=True)
 
-
-
-
+    
 
 if __name__=="__main__":
     main()
