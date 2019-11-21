@@ -277,7 +277,7 @@ def main():
     #playerGamesStats(soup, cursor, cnx, "Michigan")
     #playerNameTrial(soup,cursor,cnx,"Michigan")
 
-<<<<<<< HEAD:Scrapers/playerStatsFromPlayerFile.py
+
     for subdir, dirs, files in os.walk(script):
         for file in files:
             print "made it here"
@@ -292,11 +292,6 @@ def main():
                     print (filepath)
                 # print(path_in_str)
 
-
-
-
-=======
-    
 
     teams = ("Michigan", "MSU", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "OSU", "Penn State", "Purdue", "Rutgers", "Wisconsin")
     
@@ -316,9 +311,6 @@ def main():
 	                print (filepath)
 	                # print(path_in_str)
 
-
-    
->>>>>>> cc4e79df57ca30d2f663471c6840a7df0c644d74:Scrapers/playerStatsFromPlayerFile.py
 
         #fill in functions that want to be done for every team
 
