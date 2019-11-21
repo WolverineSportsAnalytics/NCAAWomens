@@ -63,7 +63,7 @@ def main():
     cursor = cnx.cursor(buffered=True)
 
     
-    '''
+    
     i = 0
     seasonIDs = [1,2,3,4]
     for seasonID in seasonIDs:
@@ -90,18 +90,9 @@ def main():
 
 		    	teamVSPosition(cursor, cnx, team, seasonID, position, positionID)
 
-    '''
-    teams = ["Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin"]
-    seasonIDs = [1,2,3,4,5]
-    homes = [0,1]
-    for home in homes:
-	    for seasonID in seasonIDs:
-	    	for team in teams:
-	    		statement = "INSERT into boxScoreTotalsAverages (seasonID, team, home) VALUES (%s, %s, %s)"
-	    		values = (seasonID, team, home)
 
-	    		cursor.execute(statement,values)
-	    		cnx.commit()
+
+		    		
 
 
 
