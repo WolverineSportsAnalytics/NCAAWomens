@@ -14,6 +14,11 @@ def main():
 
     testFirstModel = "SELECT a.win, from advancedScheduleStats a right join avgAdvancedScheduleStats b on  a.team = b.team and a.seasonID = b.seasonID and a.home = b.home  right join avgAdvancedScheduleStats c on a.opponent = c.team and a.seasonID = c.seasonID where a.teamID < 15 and a.home = 1 and c.home = 0"
     statement = "SELECT a.win, b.offRtg, c.offRtg, b.pace, c.pace, b.ptsPerScoringAttempt, b.ftPercent, b.2PtPercent, b.3PtPercent, b.offRebPercent, b.assistPercent, b.blockPercent, d.simpleRPI, c.ptsPerScoringAttempt, c.ftPercent, c.2PtPercent, c.3PtPercent, c.offRebPercent, c.assistPercent, c.blockPercent, e.simpleRPI from advancedScheduleStats a right join avgAdvancedScheduleStats b on  a.team = b.team and a.seasonID = b.seasonID and a.home = b.home  right join avgAdvancedScheduleStats c on a.opponent = c.team and a.seasonID = c.seasonID right join scheduleStats d ON a.team = d.team and a.dateID = d.dateID right join scheduleStats e on  a.opponent = e.team and a.dateID = e.dateID where a.teamID < 15 and a.home = 1 and c.home = 0"
+
+    statementForTest = select * from advancedScheduleStats a 
+left join boxScoreTotalsAverages b on a.team = b.team and a.seasonID = b.seasonID and a.home = b.home
+left join boxScoreTotalsAverages c on a.opponent = c.team and a.seasonID = c.seasonID
+where b.pointsScored is not null and c.pointsScored is not null and a.home = 0 and c.home = 1
     
     cnx = mysql.connector.connect(user="wsa",
                                   host="34.68.250.121",

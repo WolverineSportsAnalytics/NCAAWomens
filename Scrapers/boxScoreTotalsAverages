@@ -1,0 +1,75 @@
+import mysql.connector
+import requests
+from bs4 import BeautifulSoup
+from ast import literal_eval
+import os
+from ast import literal_eval
+
+def scraper(cursor,cnx,teams,seasonIDs,homes,extras):
+
+	features = [
+	    'pointsScored',
+	    'fieldGoalMade',
+	    'fieldGoalAttempt',
+	    'threePointMade',
+	    'threePointAttempt',
+	    'freeThrowMade',
+	    'freeThrowAttempt',
+	    'offensiveRebound',
+	    'defensiveRebound',
+	    'totalRebound',
+	    'assist',
+	    'turnover',
+	    'steal',
+	    'block',
+	    'personalFoul']
+	
+	for feature in features:
+		for home in homes:
+		    for seasonID in seasonIDs:
+		    	for team in teams:
+		    		for extra in extras:
+			    		if extra == 1:
+			    			script = ""
+		    			elif extra == 2:
+		    				script = "AVG"
+	    				elif extra == 3:
+	    					script = ""
+			    		statement = "UPDATE boxScoreTotalsAverages SET boxScoreTotalsAverages." + feature + " = (SELECT " + script + "(" + feature + ") from boxScoreTotals where home = " + str(home) + " and seasonID = " + str(seasonID) + " and team = '" + str(team) + "') where home = " + str(home) + " and seasonID = " + str(seasonID) + " and team = '" + str(team) + "'"
+			    		print statement
+			    		cursor.execute(statement)
+			    		cnx.commit()
+	
+
+	return
+
+
+
+
+def main():
+
+    cnx = mysql.connector.connect(user="wsa",
+                                  host="34.68.250.121",
+                                  database="NCAAWomens",
+                                  password="LeBron>MJ!")
+    cursor = cnx.cursor(buffered=True)
+
+    
+    
+    teams = ["Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin"]
+    seasonIDs = [1,2,3,4,5]
+    homes = [0,1]
+    extras = [2]
+    for home in homes:
+	    for seasonID in seasonIDs:
+	    	for team in teams:
+	    		for extra in extras:
+		    		
+		    		scraper(cursor,cnx,teams,seasonIDs,homes,extras)
+
+		    		
+
+
+
+if __name__=="__main__":
+    main()
