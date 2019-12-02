@@ -19,6 +19,29 @@ def main():
 left join boxScoreTotalsAverages b on a.team = b.team and a.seasonID = b.seasonID and a.home = b.home
 left join boxScoreTotalsAverages c on a.opponent = c.team and a.seasonID = c.seasonID
 where b.pointsScored is not null and c.pointsScored is not null and a.home = 0 and c.home = 1
+
+plusMinusData = select * from plusMinusTable a
+right join playerAdvancedAverages b on b.player = a.player1 and b.seasonID = a.seasonID
+right join playerAdvancedAverages c on c.player = a.player2 and b.seasonID = a.seasonID
+right join playerAdvancedAverages d on d.player = a.player3 and b.seasonID = a.seasonID
+right join playerAdvancedAverages e on e.player = a.player4 and b.seasonID = a.seasonID
+right join playerAdvancedAverages f on f.player = a.player5 and b.seasonID = a.seasonID
+right join teamAverages g on g.team = a.opponent
+
+
+plusMinusIndividual = select *
+
+from playerPlusMinusVsOpponent a
+right join playerAdvancedAverages b on a.player = b.player and a.seasonID = b.seasonID 
+right join avgAdvancedScheduleStats c on a.opponent = c.team and a.seasonID = c.seasonID
+where a.minutes > 5
+
+statement = select * from lineupPlusMinus a
+right join playerAdvancedAverages b on a.PGName = b.player and a.seasonID = b.seasonID
+right join playerAdvancedAverages c on a.Guard1Name = c.player and a.seasonID = c.seasonID
+right join playerAdvancedAverages d on a.Guard2Name = d.player and a.seasonID = d.seasonID
+right join playerAdvancedAverages e on a.ForwardName = e.player and a.seasonID = e.seasonID
+right join playerAdvancedAverages f on a.CenterName = f.player and a.seasonID = f.seasonID
     
     cnx = mysql.connector.connect(user="wsa",
                                   host="34.68.250.121",
