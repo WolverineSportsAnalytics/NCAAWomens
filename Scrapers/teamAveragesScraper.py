@@ -392,7 +392,12 @@ def main():
                 cnx.commit()
                 #print inserts
 
-
+                for i in range(3): #for next 3 seasons
+                    for j in range(53): #53 variables
+                        inserts.pop()
+                    statement = "UPDATE teamAverages (team,ptsPer100Poss, oppPtsPer100Poss, possPer40Min,percPtsFrom3, percPtsFrom2, percPtsFromFt, ThreePtRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, ThreePtPerc, TwoPtPerc, ftPerc, fgPerc,offRebsPerGame, offRebRate, defRebsPerGame, defRebRate, totRebsPerGame, totRebRate,assistPerGame, assistedShotRate, TOPerGame, TORate, assistTO, stlPerGame, stlRate, blkPerGame, blkRate, foulPerGame, foulRate,ptsTOTAL, FGmadeTOTAL, FGattemptTOTAL, TwoPtMadeTOTAL, TwoPtAttemptTOTAL, ThreePtMadeTOTAL, ThreePtAttemptTOTAL, ftMadeTOTAL, ftAttemptTOTAL, ftTripsTOTAL,Minutes, OffRebs, DefRebs, TotalRebs, Assists, Turnovers, Steals, Blocks, Fouls,seasonID) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                    cursor.execute(statement,inserts)
+                    cnx.commit()
                 '''
     seasonIDs = [1,2,3,4]
     for seasonID in seasonIDs:
