@@ -62,7 +62,7 @@ def getSeasonOverview(soup, cursor, cnx, teamName):
 
         inserts = [ptsPer100Poss, oppPtsPer100Poss, possPer40Min]
         print inserts
-        #insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
+        insertStats = "INSERT into teamAverages(ptsPer100Poss, oppPtsPer100Poss, possPer40Min) VALUES(%s, %s, %s) where seasonID = " + str(seasonID)
         i-=1
         j-=1
         q-=1
@@ -118,7 +118,7 @@ def getTeamShooting(soup, cursor, cnx, teamName):
 
         inserts = [percPtsFrom3, percPtsFrom2, percPtsFromFt, ThreePtRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, ThreePtPerc, TwoPtPerc, ftPerc, fgPerc]
         print inserts
-        #insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
+        insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
         i-=1
         j-=1
         q-=1
@@ -168,7 +168,7 @@ def getTeamRebounding(soup, cursor, cnx, teamName):
 
         inserts = [offRebsPerGame, offRebRate, defRebsPerGame, defRebRate, totRebsPerGame, totRebRate]
         print inserts
-        #insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
+        insertStats = "UPDATE teamAverages(offRebsPerGame, offRebRate, defRebsPerGame, defRebRate, totRebsPerGame, totRebRate) VALUES(%s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
         i-=1
         j-=1
         q-=1
@@ -223,6 +223,7 @@ def getTeamOther(soup, cursor, cnx, teamName):
 
         inserts = [assistPerGame, assistedShotRate, TOPerGame, TORate, assistTO, stlPerGame, stlRate, blkPerGame, blkRate, foulPerGame, foulRate]
         print inserts
+        insertStats = "UPDATE teamAverages(assistPerGame, assistedShotRate, TOPerGame, TORate, assistTO, stlPerGame, stlRate, blkPerGame, blkRate, foulPerGame, foulRate) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
         i-=1
         j-=1
         q-=1
@@ -276,7 +277,7 @@ def getTeamScoringTotals(soup, cursor, cnx, teamName):
 
         inserts = [ptsTOTAL, FGmadeTOTAL, FGattemptTOTAL, TwoPtMadeTOTAL, TwoPtAttemptTOTAL, ThreePtMadeTOTAL, ThreePtAttemptTOTAL, ftMadeTOTAL, ftAttemptTOTAL, ftTripsTOTAL]
         print inserts
-        #insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
+        insertStats = "UPDATE teamAverages(ptsTOTAL, FGmadeTOTAL, FGattemptTOTAL, TwoPtMadeTOTAL, TwoPtAttemptTOTAL, ThreePtMadeTOTAL, ThreePtAttemptTOTAL, ftMadeTOTAL, ftAttemptTOTAL, ftTripsTOTAL) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
         i-=1
         j-=1
         q-=1
@@ -328,7 +329,7 @@ def getTeamBonus(soup, cursor, cnx, teamName):
 
         inserts = [Minutes, OffRebs, DefRebs, TotalRebs, Assists, Turnovers, Steals, Blocks, Fouls, seasonID]
         print inserts
-        #insertStats = "UPDATE teamAverages(percPtsFrom3, percPtsFrom2, percPtsFromFt, 3ptRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, 3ptPerc, 2ptPerc, ftPerc, fgPerc) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
+        insertStats = "UPDATE teamAverages(Minutes, OffRebs, DefRebs, TotalRebs, Assists, Turnovers, Steals, Blocks, Fouls, seasonID) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) where seasonID = " + str(seasonID)
         i-=1
         j-=1
         q-=1
@@ -350,7 +351,7 @@ def main():
 
     # whoever uses this needs to change the directory in the string
 
-    for subdir, dirs, files in os.walk("/Users/lissjust/Documents/NCAAWomens/teamFiles"):
+    for subdir, dirs, files in os.walk("/Users/jonathanchuang/Desktop/WSA/NCAAWomens/teamFiles"):
         for file in files:
             #print os.path.join(subdir, file)
             filepath = subdir + os.sep + file
@@ -358,23 +359,46 @@ def main():
             if filepath.endswith(".htm"):
                 html = open(filepath).read()
                 soup = BeautifulSoup(html, 'html.parser')
-                teamName = getTeam(soup, cursor, cnx)
-                inserts = [teamName]
-                insert = inserts + getSeasonOverview(soup, cursor, cnx, teamName) + getTeamShooting(soup, cursor, cnx, teamName)
-                
-                inserts = inserts + getTeamRebounding(soup, cursor, cnx, teamName)
-                inserts = inserts + getTeamOther(soup, cursor, cnx, teamName)
-                inserts = inserts + getTeamScoringTotals(soup, cursor, cnx, teamName)
-                inserts = inserts + getTeamBonus(soup, cursor, cnx, teamName)
-                
-                #string = (ptsPer100Poss, oppPtsPer100Poss, possPer40Min,percPtsFrom3, percPtsFrom2, percPtsFromFt, ThreePtRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, ThreePtPerc, TwoPtPerc, ftPerc, fgPerc,offRebsPerGame, offRebRate, defRebsPerGame, defRebRate, totRebsPerGame, totRebRate,assistPerGame, assistedShotRate, TOPerGame, TORate, assistTO, stlPerGame, stlRate, blkPerGame, blkRate, foulPerGame, foulRate,ptsTOTAL, FGmadeTOTAL, FGattemptTOTAL, TwoPtMadeTOTAL, TwoPtAttemptTOTAL, ThreePtMadeTOTAL, ThreePtAttemptTOTAL, ftMadeTOTAL, ftAttemptTOTAL, ftTripsTOTAL,Minutes, OffRebs, DefRebs, TotalRebs, Assists, Turnovers, Steals, Blocks, Fouls)
+
+                #list
+                inserts = []
+                #all of these variables are lists
+                teamName = str(getTeam(soup, cursor, cnx))
+                inserts.append(teamName)
+                seasonOverview = getSeasonOverview(soup, cursor, cnx, teamName)
+                for i in seasonOverview:
+                    inserts.append(i)
+                teamShooting = getTeamShooting(soup, cursor, cnx, teamName)
+                for i in teamShooting:
+                    inserts.append(i)
+                teamRebounding = getTeamRebounding(soup, cursor, cnx, teamName)
+                for i in teamRebounding:
+                    inserts.append(i)
+                teamOther = getTeamOther(soup, cursor, cnx, teamName)
+                for i in teamOther:
+                    inserts.append(i)
+                teamScoringTotals = getTeamScoringTotals(soup, cursor, cnx, teamName)
+                for i in teamScoringTotals:
+                    inserts.append(i)
+                teamBonus = getTeamBonus(soup, cursor, cnx, teamName)
+                for i in teamBonus:
+                    inserts.append(i)
+                #combines all these lists into one list
+                #inserts = [teamName, seasonOverview, teamShooting, teamRebounding, teamOther, teamScoringTotals, teamBonus]
+
+                #insert = (ptsPer100Poss, oppPtsPer100Poss, possPer40Min,percPtsFrom3, percPtsFrom2, percPtsFromFt, ThreePtRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, ThreePtPerc, TwoPtPerc, ftPerc, fgPerc,offRebsPerGame, offRebRate, defRebsPerGame, defRebRate, totRebsPerGame, totRebRate,assistPerGame, assistedShotRate, TOPerGame, TORate, assistTO, stlPerGame, stlRate, blkPerGame, blkRate, foulPerGame, foulRate,ptsTOTAL, FGmadeTOTAL, FGattemptTOTAL, TwoPtMadeTOTAL, TwoPtAttemptTOTAL, ThreePtMadeTOTAL, ThreePtAttemptTOTAL, ftMadeTOTAL, ftAttemptTOTAL, ftTripsTOTAL,Minutes, OffRebs, DefRebs, TotalRebs, Assists, Turnovers, Steals, Blocks, Fouls)
                 statement = "INSERT into teamAverages (team,ptsPer100Poss, oppPtsPer100Poss, possPer40Min,percPtsFrom3, percPtsFrom2, percPtsFromFt, ThreePtRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, ThreePtPerc, TwoPtPerc, ftPerc, fgPerc,offRebsPerGame, offRebRate, defRebsPerGame, defRebRate, totRebsPerGame, totRebRate,assistPerGame, assistedShotRate, TOPerGame, TORate, assistTO, stlPerGame, stlRate, blkPerGame, blkRate, foulPerGame, foulRate,ptsTOTAL, FGmadeTOTAL, FGattemptTOTAL, TwoPtMadeTOTAL, TwoPtAttemptTOTAL, ThreePtMadeTOTAL, ThreePtAttemptTOTAL, ftMadeTOTAL, ftAttemptTOTAL, ftTripsTOTAL,Minutes, OffRebs, DefRebs, TotalRebs, Assists, Turnovers, Steals, Blocks, Fouls,seasonID) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
                 cursor.execute(statement,inserts)
                 cnx.commit()
+                #print inserts
 
-                
-        
-
+                for i in range(3): #for next 3 seasons
+                    for j in range(53): #53 variables
+                        inserts.pop()
+                    statement = "UPDATE teamAverages (team,ptsPer100Poss, oppPtsPer100Poss, possPer40Min,percPtsFrom3, percPtsFrom2, percPtsFromFt, ThreePtRate, ftRate, ptsPerPlay, ptsPerScorAtt, effFGPerc, ThreePtPerc, TwoPtPerc, ftPerc, fgPerc,offRebsPerGame, offRebRate, defRebsPerGame, defRebRate, totRebsPerGame, totRebRate,assistPerGame, assistedShotRate, TOPerGame, TORate, assistTO, stlPerGame, stlRate, blkPerGame, blkRate, foulPerGame, foulRate,ptsTOTAL, FGmadeTOTAL, FGattemptTOTAL, TwoPtMadeTOTAL, TwoPtAttemptTOTAL, ThreePtMadeTOTAL, ThreePtAttemptTOTAL, ftMadeTOTAL, ftAttemptTOTAL, ftTripsTOTAL,Minutes, OffRebs, DefRebs, TotalRebs, Assists, Turnovers, Steals, Blocks, Fouls,seasonID) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                    cursor.execute(statement,inserts)
+                    cnx.commit()
+                '''
     seasonIDs = [1,2,3,4]
     for seasonID in seasonIDs:
         teams = ["Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin"]
@@ -388,7 +412,7 @@ def main():
             print statement
             cnx.commit()
             '''
-
+            '''
             getSeasonOverview(soup, cursor, cnx, teamName)
             getTeamShooting(soup, cursor, cnx, teamName)
             getTeamRebounding(soup, cursor, cnx, teamName)
