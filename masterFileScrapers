@@ -38,6 +38,10 @@ def upcomingFilesFunctions(cursor,cnx):
 
                 teamName = bbb.getTeam(soup,cursor,cnx)
                 # this file needs to have the right tables updated and only go over 1 table for this year
+                statement1 = "DELETE from scheduleStats where team = 'Michigan' and seasonID = 5"
+                statement2 = "DELETE from advancedScheduleStats where team = 'Michigan' and seasonID = 5"
+                statement3 = "DELETE from performancePlayer where team = 'Michigan' and seasonID = 5"
+                statement4 = "DELETE from playerAdvancedAverages where team = 'Michigan' "
                 bbb.scheduleStats(soup, cursor, cnx, teamName)
                 # this file needs to have the right tables updated and only go over 1 table for this year
                 ccc.advancedScheduleStats(soup, cursor, cnx, teamName)
