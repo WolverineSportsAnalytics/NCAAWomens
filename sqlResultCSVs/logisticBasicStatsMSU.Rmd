@@ -1,0 +1,37 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+library(car)
+library(caret)
+library(MASS)
+```
+```{r}
+data <- read.csv("/Users/lissjust/Documents/NCAAWomens/sqlResultCSVs/winPercentBasicStatsMSU.csv")
+names(data)
+```
+```{r}
+#date <- data %>% dplyr::select(-c(fieldGoalPercent,fieldGoalPercent.1))
+model <- glm(win ~ ., data = data, family = binomial)
+summary(model)
+```
+```{r}
+tmp <- cor(data)
+tmp[upper.tri(tmp)] <- 0
+diag(tmp) <- 0
+data.new <- data[,!apply(tmp,2,function(x) any(abs(x) > 0.99))]
+```
+```{r}
+names(data.new)
+```
+
