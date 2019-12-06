@@ -15,14 +15,9 @@ import NCAAWomens.Scraper.teamByPositionScraper.py as ggg
 
 
 
-def upcomingFilesFunctions(cursor,cnx):
-	seasonIDs = [1,2,3,4,5]
-    positionIDs = [1,2,3]
-    positions = ["G", "F", "C"]
-    teams = ["Michigan", "Michigan St.", "Illinois", "Indiana", "Iowa", "Maryland", "Minnesota", "Nebraska", "Northwestern", "Ohio St.", "Penn St.", "Purdue", "Rutgers", "Wisconsin"]
-    teamIDs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+def upcomingFilesFunctions(cursor,cnx,seasonIDs,positionIDs,positions,numberTeams):
     # insert below the spelled out numbers that corresponds to how many teams you want to go through
-    numberTeams = ["One", "Two", "Three"]
+    
 
     # the Michigan team file scrapers that must be ran
     script = "/Users/lissjust/Documents/NCAAWomens/upcomingFilesNeed/MichiganTeamFile"
@@ -38,10 +33,7 @@ def upcomingFilesFunctions(cursor,cnx):
 
                 teamName = bbb.getTeam(soup,cursor,cnx)
                 # this file needs to have the right tables updated and only go over 1 table for this year
-                statement1 = "DELETE from scheduleStats where team = 'Michigan' and seasonID = 5"
-                statement2 = "DELETE from advancedScheduleStats where team = 'Michigan' and seasonID = 5"
-                statement3 = "DELETE from performancePlayer where team = 'Michigan' and seasonID = 5"
-                statement4 = "DELETE from playerAdvancedAverages where team = 'Michigan' "
+
                 bbb.scheduleStats(soup, cursor, cnx, teamName)
                 # this file needs to have the right tables updated and only go over 1 table for this year
                 ccc.advancedScheduleStats(soup, cursor, cnx, teamName)
@@ -59,9 +51,7 @@ def upcomingFilesFunctions(cursor,cnx):
             if filepath.endswith(".htm"):
                 html = open(filepath).read()
                 soup = BeautifulSoup(html, 'html.parser')
-                
-                # this file needs to be updated so that it accounts for this season being 19/20 and seasonID = 5
-                eee.playerRef(soup,cursor,cnx)
+              
 
 
                 playerTeam = aaa.getTeam(soup,cursor,cnx)
@@ -103,11 +93,7 @@ def upcomingFilesFunctions(cursor,cnx):
 	            if filepath.endswith(".htm"):
 	                html = open(filepath).read()
 	                soup = BeautifulSoup(html, 'html.parser')
-		                
-		                
-		            # this file needs to be updated so that it accounts for this season being 19/20 and seasonID = 5
-	                eee.playerRef(soup,cursor,cnx)
-
+		            
 
 	                playerTeam = aaa.getTeam(soup,cursor,cnx)
 	                # this file needs to be updated because the insert statements are commented out
@@ -129,6 +115,7 @@ def teamPositionPopulator(cursor,cnx,teams,seasonID,teamByOrTeamVS):
 		    	else:
 		    		positionID = 3
 		    	
+		    	statement1 = "DELETE from " + str(teamByOrTeamVS) + " where team = " + str(team) + " and seasonID = " + str(seasonID)
 		    	statement = "INSERT into " + str(teamByOrTeamVS) + " (team, position, positionID, seasonID) VALUES (%s,%s,%s,%s)"
 		    	inserts = (team, position, positionID, seasonID)
 
@@ -159,7 +146,7 @@ def sqlUpdateStatements(cursor,cnx):
 	'''
 
 def main():
-
+	# you must run the player reference scrapers seperate to this file to avoid any errors
     
     cnx = mysql.connector.connect(user="wsa",
                                   host="34.68.250.121",
@@ -174,16 +161,31 @@ def main():
     teamIDs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
     # insert below the spelled out numbers that corresponds to how many teams you want to go through
     numberTeams = ["One", "Two", "Three"]
+    
+    statement3 = "DELETE from performancePlayer where team = 'Michigan' and seasonID = 5"
+    statement4 = "DELETE from playerAdvancedAverages where team = 'Michigan' and seasonID = 5"
+    statement5 = "DELETE from performancePlayerPerMin where team = 'Michigan' and seasonID = 5"
+    statement1 = "DELETE from scheduleStats where team = 'Michigan' and seasonID = 5"
+    statement2 = "DELETE from advancedScheduleStats where team = 'Michigan' and seasonID = 5"
 
     seasonID = 5
     upcomingTeams = ["team1", "team2", "team3"]
+    for upcomingTeam in upcomingTeams:
+		statement3 = "DELETE from performancePlayer where team = '" + str(upcomingTeam) + "' and seasonID = 5"
+		statement4 = "DELETE from playerAdvancedAverages where team = '" + str(upcomingTeam) + "' and seasonID = 5"
+		statement5 = "DELETE from performancePlayerPerMin where team = '" + str(upcomingTeam) + "' and seasonID = 5"
+		statement1 = "DELETE from scheduleStats where team = '" + str(upcomingTeam) + "' and seasonID = 5"
+		statement2 = "DELETE from advancedScheduleStats where team = '" + str(upcomingTeam) + "' and seasonID = 5"
+		statement6 = "DELETE from teamByPosition where team = " + str(upcomingTeam) + " and seasonID = 5"
+		statement7 = "DELETE from teamVSPosition where team = " + str(upcomingTeam) + " and seasonID = 5"
+
     
+    upcomingFilesFunctions(cursor,cnx)
     # these only need to be ran once at the start of the season
     teamPositionPopulator(cursor,cnx,teams,seasonID,"teamVSPosition")
     teamPositionPopulator(cursor,cnx,teams,seasonID,"teamByPosition")
     
     # these will be ran every time
-    upcomingFilesFunctions(cursor,cnx)
     extrapolatorFunctions(cursor,cnx,upcomingTeams,seasonID)
 
 
