@@ -41,7 +41,7 @@ def upcomingFilesFunctions(cursor,cnx):
                 statement1 = "DELETE from scheduleStats where team = 'Michigan' and seasonID = 5"
                 statement2 = "DELETE from advancedScheduleStats where team = 'Michigan' and seasonID = 5"
                 statement3 = "DELETE from performancePlayer where team = 'Michigan' and seasonID = 5"
-                statement4 = "DELETE from playerAdvancedAverages where team = 'Michigan' "
+                statement4 = "DELETE from playerAdvancedAverages where team = 'Michigan' and seasonID = 5"
                 bbb.scheduleStats(soup, cursor, cnx, teamName)
                 # this file needs to have the right tables updated and only go over 1 table for this year
                 ccc.advancedScheduleStats(soup, cursor, cnx, teamName)
@@ -59,7 +59,7 @@ def upcomingFilesFunctions(cursor,cnx):
             if filepath.endswith(".htm"):
                 html = open(filepath).read()
                 soup = BeautifulSoup(html, 'html.parser')
-                
+
                 # this file needs to be updated so that it accounts for this season being 19/20 and seasonID = 5
                 eee.playerRef(soup,cursor,cnx)
 
@@ -69,7 +69,7 @@ def upcomingFilesFunctions(cursor,cnx):
                 playerGamesStats(soup,cursor,cnx,playerTeam)
                 # fill in this statement with the SQL statement that would delete duplicate rows from the performancePlayer table
                 statement = "__________________"
-                cursor.execute(statement)            
+                cursor.execute(statement)
 
     for numberTeam in numberTeams:
 	    # the opposing team file scrapers that must be ran
@@ -103,8 +103,8 @@ def upcomingFilesFunctions(cursor,cnx):
 	            if filepath.endswith(".htm"):
 	                html = open(filepath).read()
 	                soup = BeautifulSoup(html, 'html.parser')
-		                
-		                
+
+
 		            # this file needs to be updated so that it accounts for this season being 19/20 and seasonID = 5
 	                eee.playerRef(soup,cursor,cnx)
 
@@ -114,21 +114,23 @@ def upcomingFilesFunctions(cursor,cnx):
 	                playerGamesStats(soup,cursor,cnx,playerTeam)
 	                # fill in this statement with the SQL statement that would delete duplicate rows from the performancePlayer table
 	                statement = "__________________"
-	                cursor.execute(statement)   
+	                cursor.execute(statement)
 
 def teamPositionPopulator(cursor,cnx,teams,seasonID,teamByOrTeamVS):
 
 	positions = ["G", "F", "C"]
+
 	for position in positions:
 		    for team in teams:
-		    
+
 		    	if position == "G":
 		    		positionID = 1
 		    	elif position == "F":
 		    		positionID = 2
 		    	else:
 		    		positionID = 3
-		    	
+
+				statement1 = "DELETE from " + str(teamByOrTeamVS) + " where team = " + str(team) + " and seasonID = " + str(seasonID)
 		    	statement = "INSERT into " + str(teamByOrTeamVS) + " (team, position, positionID, seasonID) VALUES (%s,%s,%s,%s)"
 		    	inserts = (team, position, positionID, seasonID)
 
@@ -141,7 +143,7 @@ def extrapolatorFunctions(cursor,cnx,teams,seasonID):
 	positions = ["G", "F", "C"]
 	for position in positions:
 		    for team in teams:
-		    
+
 		    	if position == "G":
 		    		positionID = 1
 		    	elif position == "F":
@@ -160,7 +162,7 @@ def sqlUpdateStatements(cursor,cnx):
 
 def main():
 
-    
+
     cnx = mysql.connector.connect(user="wsa",
                                   host="34.68.250.121",
                                   database="NCAAWomens",
@@ -177,11 +179,11 @@ def main():
 
     seasonID = 5
     upcomingTeams = ["team1", "team2", "team3"]
-    
+
     # these only need to be ran once at the start of the season
     teamPositionPopulator(cursor,cnx,teams,seasonID,"teamVSPosition")
     teamPositionPopulator(cursor,cnx,teams,seasonID,"teamByPosition")
-    
+
     # these will be ran every time
     upcomingFilesFunctions(cursor,cnx)
     extrapolatorFunctions(cursor,cnx,upcomingTeams,seasonID)
