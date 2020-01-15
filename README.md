@@ -60,3 +60,18 @@ Excel work that must be done:
       - team vs. G, F, C
       - team by G, F, C
 
+Current work that should be done:
+    - Make working master file that runs every scraper and updates all the necessary SQL missing information
+    - Determine how Google autoML works 
+    - Determine desired stats to be predicted
+
+Managerial work that should be done:
+    - Have everyone add the WSA Linkedin to their profile for past experience
+    - Post professional headshots of current members on Linkedin
+    - Create SQL database creation project for new members
+    - Create SQL statements project for new members
+    - Create introductory R code project for creating a logistic regression algorithm
+    - Create python scraping project for new members
+    - Update Maize Pages WSA page
+    - Have ready to order t-shirt order created from Underground Printing for new members
+
